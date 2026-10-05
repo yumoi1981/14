@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>前置詞ラボ</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="前置詞ラボ">
+<meta name="theme-color" content="#141B23">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: one phone-width column; dark lab bench with cream study cards (series look); core diagrams sit on a bright white plate so the shapes read clearly */
+:root{
+  --bg:#1E2733; --bg-deep:#121820;
+  --card:#F6F0E1; --card-2:#EDE5D1; --ink:#221E16; --ink-soft:#6B6355; --line:#DED2B8;
+  --plate:#FFFFFF; --plate-line:#E4E1DA;
+  --cream:#F3ECD9; --cream-soft:rgba(243,236,217,.62); --glass:rgba(255,255,255,.07); --glass-line:rgba(255,255,255,.14);
+  --mustard:#E2A93B; --mint:#3F8F74; --coral:#D9503A; --indigo:#4C5FD5;
+  --f-en:'Fraunces', Georgia, 'Times New Roman', serif;
+  --f-ja:'Zen Kaku Gothic New', -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color-scheme:dark;
+}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg-deep);background-image:radial-gradient(120% 90% at 50% -10%, var(--bg) 0%, var(--bg-deep) 100%);background-attachment:fixed;color:var(--cream);font-family:var(--f-ja);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+#app{max-width:460px;margin:0 auto;padding:14px 16px 48px;display:flex;flex-direction:column;gap:14px}
+
+/* header */
+.hero{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 2px 4px}
+.hero h1{margin:0;font-weight:900;font-size:1.75rem;letter-spacing:.04em;line-height:1.2}
+.hero .sub{margin:4px 0 0;font-family:var(--f-en);font-size:.82rem;color:var(--cream-soft);letter-spacing:.02em}
+.gear{background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;width:40px;height:40px;font-size:1.1rem;color:var(--cream)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:10px;padding:8px 16px;margin:0 -16px;background:var(--bg-deep);background:linear-gradient(var(--bg-deep) 70%, transparent)}
+.back{background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;width:38px;height:38px;flex:none;color:var(--cream);font-size:1.05rem}
+.bar-t{font-weight:700;font-size:.95rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-s{font-size:.75rem;color:var(--cream-soft);white-space:nowrap}
+.bar-s b{color:var(--mustard);font-size:1rem;font-variant-numeric:tabular-nums}
+
+.eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.12em;color:var(--ink-soft)}
+.h{margin:10px 2px 0;font-size:.78rem;font-weight:700;letter-spacing:.14em;color:var(--cream-soft)}
+.muted{color:var(--ink-soft);font-size:.85rem;margin:6px 0 0}
+.lead{margin:0;font-size:.9rem;color:var(--cream-soft)}
+.card .lead,.card .muted{color:var(--ink-soft)}
+.note-s{margin:-4px 2px 0;font-size:.75rem;color:var(--cream-soft)}
+
+/* chips & stamps */
+.chips{display:inline-flex;flex-wrap:wrap;gap:5px;vertical-align:middle}
+.chip{font-family:var(--f-en);font-weight:600;font-size:.8rem;line-height:1;padding:5px 9px 6px;border-radius:999px;background:var(--c);color:#fff}
+.stamp{display:inline-grid;place-items:center;width:46px;height:46px;border:2.5px solid var(--coral);border-radius:50%;color:var(--coral);font-weight:900;font-size:.82rem;letter-spacing:.06em;transform:rotate(-12deg);flex:none;background:rgba(217,80,58,.06)}
+.stamp.big{width:96px;height:96px;font-size:1.6rem;border-width:4px}
+.tag{font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(226,169,59,.18);color:var(--mustard);white-space:nowrap;flex:none}
+.tag.dim{background:var(--glass);color:var(--cream-soft)}
+.card .tag{background:var(--card-2);color:var(--ink)}
+
+/* home blocks */
+.cont{display:block;width:100%;text-align:left;border:0;border-radius:20px;background:var(--card);color:var(--ink);padding:18px 18px 16px;box-shadow:0 16px 36px rgba(0,0,0,.35);position:relative}
+.cont-t{font-weight:900;font-size:1.15rem;margin:4px 0 6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cont-s{font-size:.88rem;color:var(--ink-soft)}
+.meter{height:6px;border-radius:6px;background:var(--card-2);margin:12px 0 4px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--coral);border-radius:6px}
+.go{position:absolute;right:16px;top:16px;font-size:.8rem;font-weight:700;color:var(--coral)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:var(--glass);border:1px solid var(--glass-line);border-radius:16px;padding:14px 16px;color:var(--cream);min-height:54px}
+.row:disabled{opacity:.55}
+.row-t{font-weight:700;min-width:0}
+.row-v{font-size:.85rem;color:var(--cream-soft);text-align:right;white-space:nowrap}
+.row-v b{color:var(--mustard);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.row-v small{display:block;font-size:.7rem}
+.toc{display:flex;flex-direction:column;gap:10px}
+.grp{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--glass);border:1px solid var(--glass-line);border-radius:16px;padding:14px;color:var(--cream)}
+.grp-n{font-family:var(--f-en);font-weight:700;font-size:1.4rem;color:var(--cream-soft);width:22px;text-align:center;flex:none;font-variant-numeric:tabular-nums}
+.grp-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.grp-t{font-weight:700}
+.grp-s{font-size:.75rem;color:var(--cream-soft)}
+.grp .stamp{width:42px;height:42px;font-size:.75rem;background:transparent;border-color:#F07A62;color:#F07A62}
+.final{display:block;width:100%;text-align:left;border:1.5px dashed rgba(226,169,59,.55);border-radius:18px;background:rgba(226,169,59,.08);color:var(--cream);padding:16px 18px}
+.final:disabled{opacity:.55}
+.final .eyebrow{color:var(--mustard)}
+.fin-t{font-weight:900;font-size:1.05rem;margin:4px 0 2px}
+.fin-s{font-size:.8rem;color:var(--cream-soft)}
+.passline{display:flex;align-items:center;gap:12px;margin:0;color:var(--cream-soft);font-size:.88rem}
+
+/* study card */
+.card{background:var(--card);color:var(--ink);border-radius:20px;padding:18px;box-shadow:0 16px 36px rgba(0,0,0,.35)}
+.core{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;background:var(--card);color:var(--ink);border-radius:20px;padding:20px 18px;box-shadow:0 16px 36px rgba(0,0,0,.35)}
+.core-w{font-family:var(--f-en);font-weight:700;font-size:3.4rem;line-height:1;color:var(--c);letter-spacing:-.01em}
+.core-s{font-weight:900;font-size:1.05rem;margin-bottom:6px}
+.core-l{text-align:left;margin:8px 0 0;font-size:.92rem;line-height:1.85;max-width:36em}
+
+/* diagram plate */
+.dg{background:var(--plate);border:1px solid var(--plate-line);border-radius:16px;position:relative;overflow:hidden;cursor:pointer;flex:none}
+.dg svg{display:block;width:100%;height:auto}
+.dg.big{width:100%;max-width:360px;box-shadow:inset 0 0 0 4px color-mix(in srgb, var(--c) 18%, transparent)}
+.dg.mini{width:112px;border-radius:12px}
+.dg.tile{width:100%;border-radius:10px;border:0}
+.dg-hint{position:absolute;right:10px;bottom:6px;font-size:.66rem;color:#8B909B}
+
+.card-top{display:flex;justify-content:space-between;align-items:center}
+.cnt{font-size:.75rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.sent{font-family:var(--f-en);font-weight:500;font-size:1.3rem;line-height:1.5;margin:14px 0 6px;text-wrap:balance}
+.sent.big{font-size:1.4rem}
+.hl{color:var(--c);font-weight:700}
+.card .hl{color:var(--c)}
+.blank{display:inline-block;width:3.2em;height:1.05em;border-bottom:3px solid var(--ink);vertical-align:-.1em;margin:0 .1em}
+.tfw{text-decoration-thickness:3px;text-underline-offset:5px;text-decoration-color:var(--coral);font-weight:700}
+.pv-ph{font-family:var(--f-en);font-weight:700;font-size:2rem;margin-top:12px;line-height:1.2}
+.prompt{margin:10px 0 0;font-size:.8rem;color:var(--ink-soft)}
+.deck{cursor:pointer;min-height:220px}
+.deck.open{cursor:default}
+.back-face{border-top:1.5px dashed var(--line);margin-top:16px;padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.mean{font-weight:900;font-size:1.25rem}
+.ja{margin:0;font-size:1.02rem;font-weight:500}
+.why-wrap{display:flex;gap:12px;align-items:flex-start}
+.why{margin:0;font-size:.88rem;line-height:1.75;min-width:0;flex:1}
+.why .hl{font-family:var(--f-en);font-size:1rem}
+.say-row{display:flex}
+.say{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:.95rem;line-height:1;flex:none}
+.say span{font-size:.75rem;font-weight:700}
+
+.cmp{background:var(--card-2);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.cmp-h{font-size:.72rem;font-weight:900;letter-spacing:.12em;color:var(--ink-soft)}
+.cmp-i{display:flex;flex-direction:column;gap:2px}
+.cmp-i + .cmp-i{border-top:1px dashed var(--line);padding-top:10px}
+.cmp-en{font-family:var(--f-en);font-size:1.02rem;line-height:1.45}
+.cmp-ja{font-size:.84rem;line-height:1.7}
+
+/* quiz */
+.qmeta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--cream-soft);padding:0 4px;font-variant-numeric:tabular-nums}
+.qja{margin:4px 0 0;font-size:.9rem;color:var(--ink-soft)}
+.choices{display:grid;gap:10px}
+.choices.n2{grid-template-columns:1fr 1fr}
+.choices.n3{grid-template-columns:repeat(3,1fr)}
+.choices.n4{grid-template-columns:1fr 1fr}
+.choice{border:0;border-radius:14px;background:var(--card);color:var(--ink);font-family:var(--f-en);font-weight:600;font-size:1.2rem;padding:16px 6px;box-shadow:inset 0 -4px 0 var(--card-2), 0 6px 14px rgba(0,0,0,.25);border-top:4px solid var(--c);min-height:60px}
+.choice.tf{font-family:var(--f-ja);font-size:1rem;font-weight:700;border-top-color:var(--card-2)}
+.choice:disabled{opacity:.55}
+.choice.is-ok{opacity:1;background:var(--mint);color:#fff;box-shadow:none}
+.choice.is-ng{opacity:1;background:var(--coral);color:#fff;box-shadow:none}
+.step2{display:flex;flex-direction:column;gap:8px}
+.step2 .eyebrow{color:var(--cream-soft);padding-left:4px}
+.fb{background:var(--card);color:var(--ink);border-radius:20px;padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;border-left:6px solid var(--mint);scroll-margin-top:64px}
+.fb.ng{border-left-color:var(--coral)}
+.verdict{font-weight:900;font-size:1.2rem;color:var(--mint)}
+.fb.ng .verdict{color:var(--coral)}
+.note{margin:-6px 0 0;font-size:.88rem;font-weight:500}
+.fb-sent{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.fb-sent .sent{margin:0;font-size:1.15rem;min-width:0}
+
+/* buttons */
+.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:700;font-size:1rem;background:var(--glass);border:1px solid var(--glass-line);color:var(--cream);width:100%}
+.btn.primary{background:var(--coral);border-color:var(--coral);color:#fff;box-shadow:0 8px 18px rgba(217,80,58,.35)}
+.card .btn:not(.primary):not(.ok):not(.ng){background:var(--card-2);border-color:var(--line);color:var(--ink)}
+.btn.ok{background:var(--mint);border-color:var(--mint);color:#fff}
+.btn.ng{background:transparent;border:1.5px solid #E58B79;color:#F2A796}
+.card .btn.ng{color:var(--coral);border-color:var(--coral)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:8px 12px;font-size:.85rem;width:auto}
+.evals{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* results */
+.result{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:24px 18px}
+.score-n{font-family:var(--f-en);font-weight:700;font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.score-n small{font-size:1.2rem;margin-left:2px}
+.score-s{font-size:.85rem;color:var(--ink-soft);margin-top:6px}
+.passbig{display:flex;flex-direction:column;align-items:center;gap:10px}
+.passbig p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+.end-t{margin:2px 0 4px;font-size:1.3rem;font-weight:900}
+.time{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+.newbest{margin:0;font-weight:900;color:var(--coral)}
+
+/* dex */
+.dex{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{display:flex;flex-direction:column;gap:6px;align-items:center;border-radius:14px;padding:8px 8px 10px;font-family:var(--f-en);font-weight:600;font-size:.95rem}
+.tile.on{background:var(--card);color:var(--c);border:0;border-top:4px solid var(--c)}
+.tile.off{background:var(--glass);border:1px dashed var(--glass-line);color:var(--cream-soft);justify-content:center;min-height:96px}
+.lock{font-size:1.4rem;opacity:.5}
+.modal{position:fixed;inset:0;z-index:20;background:rgba(10,14,20,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .core{width:100%;max-width:420px;max-height:90vh;overflow:auto}
+
+/* settings */
+.set{display:flex;flex-direction:column;gap:10px}
+.set textarea{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:.72rem;padding:10px;resize:vertical}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.88rem;font-weight:700}
+
+/* toast & confetti */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--cream);border:1px solid var(--glass-line);padding:10px 16px;border-radius:999px;font-size:.88rem;font-weight:700;transition:.25s;z-index:40;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.big{top:30%;bottom:auto;border-radius:20px;padding:18px 26px;background:var(--mustard);color:var(--ink);text-align:center;font-size:1rem}
+.toast.big b{display:block;font-size:1.5rem;font-weight:900}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+
+@media (max-width:360px){ .choices.n3{grid-template-columns:1fr 1fr 1fr} .choice{font-size:1.05rem} .dex{grid-template-columns:repeat(2,1fr)} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;scroll-behavior:auto!important} }
+</style>
+<div id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<script>
+/* ===== 前置詞データ ===== */
+const PREPS = {
+  "in": {
+    color: "#E0533D", core: "中に入っている",
+    coreLong: "入れ物や区切られた範囲の「中」にすっぽり入っているイメージ。箱の中だけでなく、町や国のような広い範囲、年・月・季節のような長い時間の「枠」の中にも使う。",
+    uses: [
+      { en: "There is a cat in the box.", ja: "箱の中にネコがいる。", why: "箱という入れ物の「中」。", cmp: [{ en: "There is a cat on the box.", p: "on", ja: "箱の「上（ふた）」にくっついている。中に入っているなら in。" }] },
+      { en: "I live in Tokyo.", ja: "私は東京に住んでいる。", why: "東京という広い範囲の「中」に住んでいる。" },
+      { en: "I was born in 2011.", ja: "私は2011年に生まれた。", why: "1年という長い時間の「枠」の中。月・季節も in（in May / in winter）。" },
+      { en: "I get up early in the morning.", ja: "私は朝早く起きる。", why: "朝という時間帯の「枠」の中。in the afternoon / in the evening も同じ。", cmp: [{ en: "I get up early on Sunday morning.", p: "on", ja: "「日曜日の」朝のように特定の日がつくと、その日に乗る on になる。" }] },
+      { en: "Please say it in English.", ja: "それを英語で言ってください。", why: "英語という言葉の「枠」の中で表す →「〜で（言語）」。" }
+    ],
+    pvs: [
+      { ph: "come in", part: "in", en: "Come in, please.", ja: "どうぞ入ってください。", mean: "入る", why: "外から部屋の「中」へ入ってくる。" },
+      { ph: "fill in", part: "in", en: "Please fill in this form.", ja: "この用紙に記入してください。", mean: "記入する", why: "空欄の「中」を文字で満たす（fill）→ 記入する。" }
+    ]
+  },
+  "on": {
+    color: "#2F6FD6", core: "面にくっついている（接触）",
+    coreLong: "面に「くっついている（接触）」イメージ。上に乗っているときだけでなく、壁や天井でも、面に接していれば on。曜日や日付も「その日にピタッと乗る」と考える。",
+    uses: [
+      { en: "The book is on the desk.", ja: "本は机の上にある。", why: "本が机の面に「くっついて」いる。" },
+      { en: "There is a picture on the wall.", ja: "壁に絵がかかっている。", why: "上でなくても、壁の面に接していれば on。", cmp: [{ en: "There is a safe in the wall.", p: "in", ja: "壁の「中」に埋めこまれた金庫。表面にくっついているなら on。" }] },
+      { en: "I play tennis on Sundays.", ja: "私は日曜日にテニスをする。", why: "カレンダーの「日」にピタッと乗る。曜日・日付は on。" },
+      { en: "I watched the game on TV.", ja: "テレビでその試合を見た。", why: "番組がテレビの画面・電波に「乗っている」。" },
+      { en: "The light is on.", ja: "電気がついている。", why: "スイッチが「接触」して電気がつながっている状態。反対は off。" }
+    ],
+    pvs: [
+      { ph: "put on", part: "on", en: "Put on your coat.", ja: "コートを着なさい。", mean: "身につける・着る", why: "服を体に「くっつける」（接触）→ 身につける。" },
+      { ph: "turn on", part: "on", en: "Turn on the light.", ja: "電気をつけて。", mean: "（電気などを）つける", why: "スイッチを回して回路を「接触」させ、電気をつなぐ。" },
+      { ph: "go on", part: "on", en: "Please go on.", ja: "続けてください。", mean: "続ける", why: "くっついたまま離れずに進んでいく →「続く」。" }
+    ]
+  },
+  "at": {
+    color: "#C98A0C", core: "ピンポイントの一点",
+    coreLong: "地図にピンを刺すような「一点」のイメージ。場所を点としてとらえたり、時計が指す時刻や、視線・動作を向ける的（まと）を示したりする。",
+    uses: [
+      { en: "I'll meet you at the station.", ja: "駅で会おう。", why: "駅を待ち合わせの「一点」としてとらえる。", cmp: [{ en: "I'll wait for you in the station.", p: "in", ja: "駅の「建物の中で」待つ。中にいることを意識している。" }, { en: "We played in the park.", p: "in", ja: "公園の敷地の「中」で遊んだ。広さのある空間としてとらえる。" }, { en: "I'm at the park now.", p: "at", ja: "いま公園という「地点」にいる。居場所を地図上の一点として伝える。" }] },
+      { en: "School starts at 8:30.", ja: "学校は8時30分に始まる。", why: "時計の針が指す「一点」の時刻。", cmp: [{ en: "School starts around 8:30.", p: "around", ja: "8時30分「ごろ」。ちょうどの一点ではなく、そのまわり。" }] },
+      { en: "Look at the board.", ja: "黒板を見て。", why: "視線を黒板という「一点」に向ける。" },
+      { en: "She is good at math.", ja: "彼女は数学が得意だ。", why: "「数学」という一点にしぼって、得意かどうかを言う。" },
+      { en: "I study at night.", ja: "私は夜に勉強する。", why: "夜をひとかたまりの「時点」としてとらえる。ただし in the morning と at night の使い分けは慣用的に決まっている面が大きいので、セットで覚えよう。", cmp: [{ en: "I woke up in the night.", p: "in", ja: "夜の「時間帯の中」のどこかで目が覚めた。夜のうちに何かが起きたことを言うときは in the night も使う。" }] }
+    ],
+    pvs: [
+      { ph: "laugh at", part: "at", en: "Don't laugh at me.", ja: "私のことを笑わないで。", mean: "〜を笑う", why: "笑いを相手という「一点」に向ける。look at も同じ考え方。" },
+      { ph: "arrive at", part: "at", en: "We arrived at the hotel.", ja: "私たちはホテルに着いた。", mean: "〜に着く", why: "着く場所を地図上の「一点」としてとらえる。都市など広い場所なら arrive in になる。" }
+    ]
+  },
+  "through": {
+    color: "#1E946A", core: "中を通り抜ける",
+    coreLong: "トンネルのように「中を通り抜ける」イメージ。入口から入って出口から出るまでの全体をとらえるので、時間に使うと「最初から最後までずっと」になる。",
+    uses: [
+      { en: "The train went through the tunnel.", ja: "電車はトンネルを通り抜けた。", why: "トンネルの入口から出口まで「通り抜ける」。" },
+      { en: "We walked through the park.", ja: "私たちは公園を通り抜けて歩いた。", why: "公園の中を、端から端まで通り抜ける。", cmp: [{ en: "We walked across the park.", p: "across", ja: "公園を平面として「横切った」。through は木々の間など「中」を抜ける感じが強い。" }, { en: "We walked around the park.", p: "around", ja: "公園のあちこちを「ぐるっと」回った。" }] },
+      { en: "I saw a bird through the window.", ja: "窓越しに鳥が見えた。", why: "視線が窓ガラスを「通り抜けて」外に届く。", cmp: [{ en: "She is standing at the window.", p: "at", ja: "窓「のところ（窓辺）」に立っている。視線が窓を通り抜けるなら through。" }] },
+      { en: "It rained through the night.", ja: "一晩中雨が降った。", why: "夜の始まりから終わりまで、時間を「通り抜ける」→「〜の間ずっと」。" },
+      { en: "I heard the news through a friend.", ja: "友だちを通じてそのニュースを聞いた。", why: "ニュースが友だちという“管”を通ってきた →「〜を通じて」。" }
+    ],
+    pvs: [
+      { ph: "get through", part: "through", en: "We got through the hard times.", ja: "私たちはつらい時期を乗り越えた。", mean: "乗り越える・やり遂げる", why: "困難というトンネルを、入口から出口まで「通り抜ける」。" },
+      { ph: "look through", part: "through", en: "I looked through the report.", ja: "報告書にざっと目を通した。", mean: "ざっと目を通す", why: "視線が書類の初めから終わりまで「通り抜ける」。" }
+    ]
+  },
+  "across": {
+    color: "#8A4FD1", core: "横切って向こう側へ",
+    coreLong: "道や川のような平面を「横切って向こう側へ」渡るイメージ。渡った先に注目すると「〜の向こう側に」、平面全体に広がると「〜じゅうで」になる。",
+    uses: [
+      { en: "Let's walk across the street.", ja: "通りを歩いて渡ろう。", why: "通りという平面を「横切って」向こう側へ。", cmp: [{ en: "Let's walk along the street.", p: "along", ja: "通りに「沿って」歩く。渡らずに道なりに進む。" }] },
+      { en: "He swam across the river.", ja: "彼は川を泳いで渡った。", why: "川を横切って、向こう岸へ。", cmp: [{ en: "He swam along the river.", p: "along", ja: "川に「沿って」泳いだ。向こう岸へは行かない。" }] },
+      { en: "The bank is across the street.", ja: "銀行は通りの向こう側にある。", why: "通りを横切った「その先」にある →「〜の向こう側に」。" },
+      { en: "The song is popular across Japan.", ja: "その歌は日本中で人気だ。", why: "日本の端から端まで横切るように広がる →「〜じゅうで」。" }
+    ],
+    pvs: [
+      { ph: "come across", part: "across", en: "I came across an old photo.", ja: "古い写真を偶然見つけた。", mean: "偶然見つける・出会う", why: "進んでいく途中で、横切るように道が交わってばったり出くわす。" }
+    ]
+  },
+  "along": {
+    color: "#0C93A8", core: "細長いものに沿って",
+    coreLong: "道や川のような細長いものに「沿って」進むイメージ。動かないものが並んでいるときも「〜沿いに」と使える。",
+    uses: [
+      { en: "We walked along the river.", ja: "私たちは川沿いを歩いた。", why: "細長い川に「沿って」進む。" },
+      { en: "There are cherry trees along the street.", ja: "通り沿いに桜の木がある。", why: "動かない木も、道に沿って並んでいれば along。" },
+      { en: "Go along this street, and you'll see the station.", ja: "この通りを道なりに行けば、駅が見えます。", why: "道に沿って進む →「道なりに」。道案内でよく使う。" }
+    ],
+    pvs: [
+      { ph: "get along with", part: "along", en: "I get along with my classmates.", ja: "私はクラスメートと仲良くやっている。", mean: "〜と仲良くやる", why: "相手と同じ道に「沿って」並んで進んでいける → うまくやっていく。" },
+      { ph: "come along", part: "along", en: "Can I come along?", ja: "いっしょに行ってもいい？", mean: "いっしょに来る・ついて行く", why: "相手の進む道に「沿って」ついて行く。" }
+    ]
+  },
+  "around": {
+    color: "#D23C7A", core: "ぐるっと回る・囲む",
+    coreLong: "中心のまわりを「ぐるっと回る・取り囲む」イメージ。まわりのあちこちを回る、ちょうどではなく“そのまわり”＝「〜ごろ」にも広がる。",
+    uses: [
+      { en: "The earth goes around the sun.", ja: "地球は太陽のまわりを回る。", why: "中心のまわりを「ぐるっと」回る。" },
+      { en: "We sat around the table.", ja: "私たちはテーブルを囲んで座った。", why: "テーブルのまわりを「ぐるっと」取り囲む。" },
+      { en: "I traveled around Japan.", ja: "私は日本のあちこちを旅した。", why: "日本の中を、あちこち「ぐるっと」回る。", cmp: [{ en: "I traveled in Japan.", p: "in", ja: "日本の「中で」旅行した。場所の範囲だけを言う。" }, { en: "I traveled through Japan.", p: "through", ja: "日本を「通り抜けて」旅した。日本を通過してその先へ向かうイメージ。" }] },
+      { en: "Let's meet around three.", ja: "3時ごろに会おう。", why: "3時ちょうどではなく、その「まわり」→「〜ごろ」。", cmp: [{ en: "Let's meet at three.", p: "at", ja: "3時「ちょうど」に会おう。時刻の一点。" }] }
+    ],
+    pvs: [
+      { ph: "look around", part: "around", en: "Look around.", ja: "まわりを見回して。", mean: "見回す", why: "視線を「ぐるっと」一周させる。" },
+      { ph: "turn around", part: "around", en: "Turn around, please.", ja: "振り向いてください。", mean: "振り向く・向きを変える", why: "体を「ぐるっと」回して向きを変える。" },
+      { ph: "show ~ around", part: "around", en: "I'll show you around our school.", ja: "学校を案内するよ。", mean: "〜を案内する", why: "相手を連れて、場所のあちこちを「ぐるっと」見せて回る。" }
+    ]
+  }
+};
+
+/* 図鑑に並ぶ全パーツ（27個＋句動詞用 away / back） */
+const ALL_PARTS = ["in","on","at","to","for","from","of","with","by","about","over","under","up","out","off","down","into","through","across","along","around","between","among","against","after","before","during","away","back"];
+
+/* ===== グループ（サンプル2グループ） =====
+   mix: 混合問題（type 'fill' = 空所補充 / 'tf' = 正誤判定）
+   x  : 総仕上げで使う「確実にまちがい」の選択肢 */
+const GROUPS_BASE = [
+  {
+    id: "g1", title: "位置の3兄弟", sub: "いちばん迷う in / on / at",
+    preps: ["in", "on", "at"],
+    mix: [
+      { id: "g1m1", s: "I was born ___ 2011.", a: "in", x: ["on","at","across"], why: "1年という長い時間の「枠」の中で生まれた。年・月・季節は in。" },
+      { id: "g1m2", s: "My birthday is ___ May 5.", a: "on", x: ["in","at","through"], why: "5月5日という特定の「日」にピタッと乗る。日付・曜日は on。" },
+      { id: "g1m3", s: "The meeting starts ___ 3 p.m.", a: "at", x: ["in","on","across"], why: "時計が指す「一点」の時刻。" },
+      { id: "g1m4", s: "There is a clock ___ the wall.", a: "on", x: ["in","at","through"], why: "時計が壁の面にくっついている。上でなくても面に接していれば on。" },
+      { id: "g1m5", s: "She lives ___ Osaka.", a: "in", x: ["on","at","through"], why: "大阪という広い範囲の「中」に住んでいる。" },
+      { id: "g1m6", s: "Let's meet ___ the bus stop.", a: "at", x: ["in","on","through"], why: "バス停を待ち合わせの「一点」としてとらえる。" },
+      { id: "g1m7", s: "I go to church ___ Sunday mornings.", a: "on", x: ["in","at","through"], why: "morning でも「日曜日の」朝なら、その日にピタッと乗る。曜日がつくと on になる。", cmp: [{ en: "I go to church in the morning.", p: "in", ja: "特定の日がつかない「朝」なら in。" }] },
+      { id: "g1m8", s: "I usually get up early ___ the morning.", a: "in", x: ["on","at","across"], why: "朝という時間帯の「枠」の中。in the afternoon / in the evening も同じ。" },
+      { id: "g1m9", s: "There is some milk ___ the bottle.", a: "in", x: ["on","at","across"], why: "ビンという入れ物の「中」に入っている。", cmp: [{ en: "There is a label on the bottle.", p: "on", ja: "ラベルはビンの表面にくっついている → on。中身なら in。" }] },
+      { id: "g1m10", s: "What's ___ TV tonight?", a: "on", x: ["in","at","through"], why: "番組がテレビの画面・電波に「乗っている」。" },
+      { id: "g1m11", s: "I'm not good ___ singing.", a: "at", x: ["in","on","through"], why: "「歌うこと」という一点にしぼって、得意かどうかを言う → be good at。" },
+      { id: "g1m12", s: "We have a lot of snow here ___ winter.", a: "in", x: ["on","at","across"], why: "冬という季節の「枠」の中。" },
+      { id: "g1t1", type: "tf", s: "I go to school {in} Monday.", ok: false, a: "on", why: "月曜日という「日」にピタッと乗るので on。in は月・年・季節のような長い枠に使う。" },
+      { id: "g1t2", type: "tf", s: "I'll see you {at} the station.", ok: true, a: "at", why: "駅を待ち合わせの「一点」としてとらえているので at で正しい。", cmp: [{ en: "I'll see you in the station.", p: "in", ja: "これも正しい英文。ただし「駅の建物の中で」会う、という意味になる。" }] },
+      { id: "g1t3", type: "tf", s: "She was born {on} 2010.", ok: false, a: "in", why: "2010年は長い時間の「枠」なので in。on は特定の日付や曜日に使う。" }
+    ],
+    pvq: [
+      { id: "g1p1", s: "Put ___ your coat. It's cold.", ja: "コートを着なさい。寒いよ。", a: "on", x: ["in","at","across"], why: "服を体に「くっつける」→ put on（身につける）。" },
+      { id: "g1p2", s: "Turn ___ the light, please.", ja: "電気をつけてください。", a: "on", x: ["in","at","across"], why: "回路を「接触」させて電気をつなぐ → turn on（つける）。" },
+      { id: "g1p3", s: "Please go ___ with your story.", ja: "話を続けてください。", a: "on", x: ["in","at","across"], why: "くっついたまま離れずに進む → go on（続ける）。" },
+      { id: "g1p4", s: "Knock on the door before you come ___.", ja: "ドアをノックしてから入ってね。", a: "in", x: ["on","at","across"], why: "外から部屋の「中」へ入ってくる → come in。" },
+      { id: "g1p5", s: "Please fill ___ this form.", ja: "この用紙に記入してください。", a: "in", x: ["on","at","across"], why: "空欄の「中」を文字で満たす → fill in（記入する）。" },
+      { id: "g1p6", s: "Don't laugh ___ me.", ja: "私を笑わないで。", a: "at", x: ["in","on","across"], why: "笑いを相手という「一点」に向ける → laugh at。" },
+      { id: "g1p7", s: "We arrived ___ the hotel at six.", ja: "私たちは6時にホテルに着いた。", a: "at", x: ["on","through","across"], why: "ホテルを地図上の「一点」としてとらえる → arrive at。", cmp: [{ en: "We arrived in Tokyo at six.", p: "in", ja: "東京のような広い都市なら「範囲の中」に着く → arrive in。" }] }
+    ]
+  },
+  {
+    id: "g2", title: "動きの4兄弟", sub: "通り抜ける・横切る・沿う・回る",
+    preps: ["through", "across", "along", "around"],
+    mix: [
+      { id: "g2m1", s: "The train went ___ the long tunnel. It was dark inside.", a: "through", x: ["across","on","at"], why: "トンネルの入口から入って出口へ「通り抜ける」。" },
+      { id: "g2m2", s: "We walked ___ the river bank for an hour.", a: "along", x: ["through","on","at"], why: "細長い川岸に「沿って」歩く。" },
+      { id: "g2m3", s: "The station is ___ the street, on the other side.", a: "across", x: ["through","in","at"], why: "通りを「横切った」向こう側にある → 〜の向こう側に。" },
+      { id: "g2m4", s: "The moon goes ___ the earth.", a: "around", x: ["through","across","along"], why: "地球のまわりを「ぐるっと」回る。" },
+      { id: "g2m5", s: "I saw Mt. Fuji ___ the window.", a: "through", x: ["across","along","on"], why: "視線が窓ガラスを「通り抜けて」外に届く。", cmp: [{ en: "I stood at the window.", p: "at", ja: "窓「辺に」立った。窓ごしに見るのは through。" }] },
+      { id: "g2m6", s: "Let's meet ___ five o'clock.", a: "around", x: ["through","across","along"], why: "5時ちょうどではなく、その「まわり」→ 〜ごろ。", cmp: [{ en: "Let's meet at five o'clock.", p: "at", ja: "これも正しい英文。ただし「5時ちょうど」になる。" }] },
+      { id: "g2m7", s: "He swam ___ the river to the other side.", a: "across", x: ["along","on","at"], why: "川を「横切って」向こう岸へ渡る。" },
+      { id: "g2m8", s: "Cherry trees are planted ___ the river in a long line.", a: "along", x: ["through","in","at"], why: "木が細長い川に「沿って」並んでいる。動かないものにも along を使う。" },
+      { id: "g2m9", s: "The children sat ___ the campfire and sang songs.", a: "around", x: ["through","across","along"], why: "キャンプファイヤーのまわりを「ぐるっと」取り囲む。" },
+      { id: "g2m10", s: "I studied ___ the night for the test.", a: "through", x: ["across","along","around"], why: "夜の始まりから終わりまで、時間を「通り抜ける」→ 〜の間ずっと。" },
+      { id: "g2m11", s: "I heard the news ___ a friend.", a: "through", x: ["across","along","on"], why: "ニュースが友だちという“管”を通ってきた → 〜を通じて。" },
+      { id: "g2m12", s: "She wore a scarf ___ her neck.", a: "around", x: ["through","across","along"], why: "首のまわりを「ぐるっと」取り囲む。" },
+      { id: "g2t1", type: "tf", s: "Go {across} this street for 200 meters and turn right.", ok: false, a: "along", why: "道に「沿って」進む（道なりに行く）なら along。across は道を横切ること。" },
+      { id: "g2t2", type: "tf", s: "The earth goes {around} the sun.", ok: true, a: "around", why: "太陽のまわりを「ぐるっと」回るので around で正しい。" },
+      { id: "g2t3", type: "tf", s: "The car went {across} the tunnel.", ok: false, a: "through", why: "トンネルは入口から出口へ「中を通り抜ける」ので through。across は平面を横切るときに使う。" }
+    ],
+    pvq: [
+      { id: "g2p1", s: "We got ___ the hard times together.", ja: "私たちはいっしょにつらい時期を乗り越えた。", a: "through", x: ["across","along","on"], why: "困難というトンネルを「通り抜ける」→ get through（乗り越える）。" },
+      { id: "g2p2", s: "I looked ___ the report before the meeting.", ja: "会議の前に報告書にざっと目を通した。", a: "through", x: ["across","along","on"], why: "視線が書類の初めから終わりまで「通り抜ける」→ look through。" },
+      { id: "g2p3", s: "I came ___ an old photo in my desk.", ja: "机の中で古い写真を偶然見つけた。", a: "across", x: ["through","along","on"], why: "進む途中で横切るように出くわす → come across（偶然見つける）。" },
+      { id: "g2p4", s: "Do you get ___ with your classmates?", ja: "クラスメートと仲良くやってる？", a: "along", x: ["through","across","at"], why: "相手と同じ道に「沿って」進む → get along with（仲良くやる）。" },
+      { id: "g2p5", s: "Can I come ___ with you?", ja: "いっしょに行ってもいい？", a: "along", x: ["through","across","at"], why: "相手の進む道に「沿って」ついて行く → come along。" },
+      { id: "g2p6", s: "Look ___! There are so many people here.", ja: "まわりを見て！人がいっぱいいるよ。", a: "around", x: ["through","across","along"], why: "視線を「ぐるっと」一周させる → look around（見回す）。" },
+      { id: "g2p7", s: "Turn ___ and look at me.", ja: "振り向いて私を見て。", a: "around", x: ["through","across","along"], why: "体を「ぐるっと」回す → turn around（振り向く）。" }
+    ]
+  }
+];
+
+/* ===== 追加の前置詞・パーツ ===== */
+Object.assign(PREPS, {
+  "for": {
+    color: "#E0731A", core: "〜に向かって（目的・相手）",
+    coreLong: "気持ちや行動が、ある目的・相手に「向かっている」イメージ。着いたかどうかまでは言わず、向かう先やねらいを示す。時間に使うと「どれだけの長さ」続くかを示す（for three hours）。",
+    uses: [
+      { en: "This present is for you.", ja: "このプレゼントはあなたへのものだ。", why: "プレゼントの気持ちがあなたに「向かっている」→〜のために・〜へ。" },
+      { en: "He left for Osaka.", ja: "彼は大阪へ向けて出発した。", why: "大阪に「向かって」出発した。着いたかどうかは言っていない。", cmp: [{ en: "He went to Osaka.", p: "to", ja: "大阪に「着く」ところまで言うなら to。for は向かう方向だけ。" }] },
+      { en: "I studied for the test.", ja: "テストのために勉強した。", why: "目的（テスト）に「向かって」→〜のために。" },
+      { en: "I studied for three hours.", ja: "3時間勉強した。", why: "「3時間」という長さの分だけ続いた。期間の長さを言うのが for。", cmp: [{ en: "I studied during the summer vacation.", p: "during", ja: "夏休みという「決まった期間の中で」勉強した。いつの期間かを言うのが during。" }] },
+      { en: "Thank you for your help.", ja: "手伝ってくれてありがとう。", why: "感謝の気持ちが「手伝い」に向かう → 理由の for。" }
+    ],
+    pvs: [
+      { ph: "look for", part: "for", en: "I'm looking for my key.", ja: "鍵を探している。", mean: "〜を探す", why: "視線が、まだ見つからない鍵に「向かって」いる → 探す。", cmp: [{ en: "I'm looking at my key.", p: "at", ja: "目の前の鍵を「見ている」。look for は見つかっていないものを探す。" }] },
+      { ph: "wait for", part: "for", en: "I'll wait for you here.", ja: "ここで君を待つよ。", mean: "〜を待つ", why: "気持ちが、来る人に「向かって」待つ。" },
+      { ph: "ask for", part: "for", en: "He asked for help.", ja: "彼は助けを求めた。", mean: "〜を求める", why: "求める気持ちが助けに「向かう」。" }
+    ]
+  },
+  "during": {
+    color: "#6F8A14", core: "決まった期間の中で",
+    coreLong: "「夏休み」「授業」のように、はっきり区切られた期間の「中で」何かが起こる・続くイメージ。後ろには期間の名前が来て、three hours のような数字の長さは来ない。",
+    uses: [
+      { en: "I visited Kyoto during the summer vacation.", ja: "夏休みの間に京都を訪れた。", why: "夏休みという期間の「中で」。", cmp: [{ en: "I stayed in Kyoto for a week.", p: "for", ja: "「1週間」という数字の長さには for。during は使わない。" }] },
+      { en: "Don't talk during the class.", ja: "授業中に話してはいけない。", why: "授業という期間の「中で」ずっと。" },
+      { en: "He fell asleep during the movie.", ja: "彼は映画の途中で眠ってしまった。", why: "映画という期間の「中の」ある時点で起きた。" }
+    ],
+    pvs: []
+  },
+  "before": {
+    color: "#4F5BD5", core: "〜より前に",
+    coreLong: "時間の線の上で、基準になる点より「前」にあるイメージ。順番の前にも使う。",
+    uses: [
+      { en: "Wash your hands before dinner.", ja: "夕食の前に手を洗いなさい。", why: "夕食という点より「前」。" },
+      { en: "I got home before six.", ja: "6時前に帰宅した。", why: "6時という点より「前」。", cmp: [{ en: "I got home by six.", p: "by", ja: "6時「までに」帰った（期限）。before は6時より前、という前後関係だけを言う。" }] },
+      { en: "Think before you speak.", ja: "話す前に考えなさい。", why: "話すという点より「前」。後ろに主語＋動詞が来ることもある。" },
+      { en: "Your name comes before mine.", ja: "あなたの名前は私の前に来る。", why: "順番の上で「前」。" }
+    ],
+    pvs: []
+  },
+  "after": {
+    color: "#9C5B2E", core: "〜のあとに・〜を追って",
+    coreLong: "基準になるものの「あと」に続く・後ろを追いかけるイメージ。時間の「〜のあと」だけでなく、追いかける、あとから見守るという意味にも広がる。",
+    uses: [
+      { en: "Let's play after school.", ja: "放課後に遊ぼう。", why: "学校が終わった点の「あと」。" },
+      { en: "Repeat after me.", ja: "私のあとについて言ってください。", why: "私の言ったことを「あとから」追いかける。" },
+      { en: "The dog ran after the cat.", ja: "犬はネコを追いかけた。", why: "ネコの「あとを」追う。" }
+    ],
+    pvs: [
+      { ph: "look after", part: "after", en: "I look after my little brother.", ja: "私は弟の世話をする。", mean: "〜の世話をする", why: "あとからついて見守る → 世話をする。", cmp: [{ en: "I'm looking for my little brother.", p: "for", ja: "見つからない弟を「探している」。look after は世話をする。" }] },
+      { ph: "take after", part: "after", en: "She takes after her mother.", ja: "彼女は母親に似ている。", mean: "（親など）に似ている", why: "親の「あとを」受けついでいる → 似ている。" }
+    ]
+  },
+  "to": {
+    color: "#1F7FC0", core: "〜に着く（方向＋到達）",
+    coreLong: "矢印が目的地まで「とどく」イメージ。向かう方向だけでなく、そこに着くところまで含む。物や言葉を相手に「届ける」ときにも使う。",
+    uses: [
+      { en: "I walk to school.", ja: "私は歩いて学校へ行く。", why: "学校に「着く」ところまで。" },
+      { en: "Give this book to Ken.", ja: "この本をケンにあげて。", why: "本がケンのところまで「届く」。" },
+      { en: "The shop is open from 9 to 5.", ja: "店は9時から5時まで開いている。", why: "終わりの点「5時」まで届く。" },
+      { en: "Listen to me.", ja: "私の話を聞いて。", why: "耳を相手の言葉まで「届かせる」。", cmp: [{ en: "Look at me.", p: "at", ja: "見るときは視線を一点に向ける at。聞くときは listen to。組み合わせごと覚えよう。" }] }
+    ],
+    pvs: [
+      { ph: "get to", part: "to", en: "How can I get to the station?", ja: "駅へはどう行けばいいですか。", mean: "〜に着く", why: "駅に「到着」する。" },
+      { ph: "belong to", part: "to", en: "This bag belongs to me.", ja: "このかばんは私のものだ。", mean: "〜のものである・〜に所属する", why: "かばんが私のところに「届いて」くっついている → 私のもの。" },
+      { ph: "talk to", part: "to", en: "Can I talk to you?", ja: "ちょっと話せる？", mean: "〜と話す・話しかける", why: "言葉を相手まで「届ける」。" }
+    ]
+  },
+  "from": {
+    color: "#C2463A", core: "〜から（出発点）",
+    coreLong: "矢印の「出発点」のイメージ。場所や時間の始まり、出身、送り主、原料などの「もと」を示す。",
+    uses: [
+      { en: "I'm from Japan.", ja: "私は日本出身です。", why: "出発点（出身）が日本。" },
+      { en: "I walked from the station.", ja: "駅から歩いた。", why: "駅が「出発点」。" },
+      { en: "School is from Monday to Friday.", ja: "学校は月曜から金曜まで。", why: "始まりの点が from、終わりの点が to。" },
+      { en: "I got a letter from Emi.", ja: "エミから手紙をもらった。", why: "手紙の「出発点」がエミ。" },
+      { en: "Cheese is made from milk.", ja: "チーズは牛乳から作られる。", why: "原料が「出発点」。元の形が見えなくなるときは from。", cmp: [{ en: "This desk is made of wood.", p: "of", ja: "見て材料がわかるときは of。木と机が「つながったまま」見えている。" }] }
+    ],
+    pvs: [
+      { ph: "hear from", part: "from", en: "I hope to hear from you soon.", ja: "すぐに連絡をもらえるとうれしいです。", mean: "〜から連絡をもらう", why: "知らせの「出発点」が相手。" },
+      { ph: "graduate from", part: "from", en: "He graduated from high school.", ja: "彼は高校を卒業した。", mean: "〜を卒業する", why: "学校を「出発点」にして出ていく → 卒業する。" },
+      { ph: "be different from", part: "from", en: "My idea is different from yours.", ja: "私の考えはあなたのとは違う。", mean: "〜と違う", why: "比べるもとから「離れている」→ 違う。" }
+    ]
+  },
+  "into": {
+    color: "#B83280", core: "外から中へ（入っていく動き）",
+    coreLong: "in（中）＋ to（到着）。外から境目をこえて「中へ入っていく」動きのイメージ。中に入った状態は in、入っていく動きは into。別の姿の中へ入る＝「〜に変わる」にも使う。",
+    uses: [
+      { en: "He jumped into the pool.", ja: "彼はプールに飛び込んだ。", why: "外から中へ「入っていく」動き。", cmp: [{ en: "He swam in the pool.", p: "in", ja: "プールの「中で」泳いだ。中にいる状態なら in。" }] },
+      { en: "Put the eggs into the box.", ja: "卵を箱の中に入れて。", why: "外から箱の中へ移す動き。", cmp: [{ en: "The eggs are in the box.", p: "in", ja: "卵が「中にある」状態。入れる動きを言うなら into。" }] },
+      { en: "Cut the cake into six pieces.", ja: "ケーキを6つに切って。", why: "ケーキが「6切れ」という形の中へ入っていく → 〜に（分ける）。" },
+      { en: "The rain changed into snow.", ja: "雨が雪に変わった。", why: "雪という姿の「中へ」入っていく → 〜に変わる。" }
+    ],
+    pvs: [
+      { ph: "get into", part: "into", en: "Get into the car.", ja: "車に乗って。", mean: "（車などに）乗り込む・入る", why: "車の「中へ」入っていく。", cmp: [{ en: "Get on the bus.", p: "on", ja: "バス・電車のように乗って立てる乗り物は get on（床に乗る）。車のように体をかがめて入るものは get into。" }] },
+      { ph: "run into", part: "into", en: "I ran into Ken at the station.", ja: "駅でケンにばったり会った。", mean: "〜にばったり会う・ぶつかる", why: "進んでいて相手の「中へ」飛び込むようにぶつかる → ばったり会う。" },
+      { ph: "turn into", part: "into", en: "Water turns into ice.", ja: "水は氷に変わる。", mean: "〜に変わる", why: "氷という姿の「中へ」入っていく。" }
+    ]
+  },
+  "over": {
+    color: "#2E8B57", core: "弧をえがいて上をこえる・おおう",
+    coreLong: "何かの「上」を、弧をえがくようにこえていく・おおうイメージ。くっついていない上を表す。こえていく動きから「〜を超えて（〜以上）」「終わって」にも広がる。",
+    uses: [
+      { en: "The plane flew over the mountain.", ja: "飛行機は山の上を飛んでいった。", why: "山の上を弧をえがいて「こえて」いく。" },
+      { en: "There is a bridge over the river.", ja: "川に橋がかかっている。", why: "川の上を「おおう」ようにまたぐ。", cmp: [{ en: "There is a cup on the table.", p: "on", ja: "テーブルにくっついている上は on。離れた上・またいでいる上は over。" }] },
+      { en: "He is over sixty.", ja: "彼は60歳を超えている。", why: "60という線を「こえて」いる → 〜を超えて。" },
+      { en: "The game is over.", ja: "試合は終わった。", why: "山を最後までこえきった → 終わった。" }
+    ],
+    pvs: [
+      { ph: "get over", part: "over", en: "She got over her cold.", ja: "彼女はかぜから回復した。", mean: "〜を乗り越える・〜から回復する", why: "困難という山を「こえる」。" },
+      { ph: "turn over", part: "over", en: "Turn over the card.", ja: "カードを裏返して。", mean: "ひっくり返す", why: "弧をえがいてくるっと「こえて」反対側へ。" },
+      { ph: "think over", part: "over", en: "Please think it over.", ja: "よく考えてみてください。", mean: "よく考える", why: "考えを全体の上に「おおう」ように広げる → すみずみまで考える。" }
+    ]
+  },
+  "under": {
+    color: "#5D6B7A", core: "真下・上からおおわれて",
+    coreLong: "何かの「真下」にあって、上からおおわれているイメージ。数や年齢が「〜未満」、工事などの「〜中」（ある状態の下にある）にも広がる。",
+    uses: [
+      { en: "The cat is under the table.", ja: "ネコはテーブルの下にいる。", why: "テーブルの「真下」。" },
+      { en: "Children under six are free.", ja: "6歳未満の子どもは無料です。", why: "6という線より「下」→ 〜未満。", cmp: [{ en: "People over sixty are free.", p: "over", ja: "60を「こえる」人。over は〜を超えて、under は〜未満。" }] },
+      { en: "I wore a sweater under my coat.", ja: "コートの下にセーターを着た。", why: "コートに「おおわれた下」。" },
+      { en: "The bridge is under construction.", ja: "その橋は建設中だ。", why: "工事という状態の「下に」置かれている → 〜中。" }
+    ],
+    pvs: []
+  },
+  "up": {
+    color: "#D9466F", core: "上へ・すっかり",
+    coreLong: "下から「上へ」動くイメージ。上まで達して「すっかり・完全に」、目の前に上がってくる「現れる」にも広がる。",
+    uses: [
+      { en: "He climbed up the tree.", ja: "彼は木に登った。", why: "下から「上へ」。" },
+      { en: "Stand up, please.", ja: "立ってください。", why: "体を「上へ」起こす。" },
+      { en: "Prices went up.", ja: "値段が上がった。", why: "数が「上へ」。" },
+      { en: "Eat up your vegetables.", ja: "野菜を全部食べなさい。", why: "量が上まで達して「すっかり」→ 完全に。" }
+    ],
+    pvs: [
+      { ph: "get up", part: "up", en: "I get up at six.", ja: "私は6時に起きる。", mean: "起きる・起き上がる", why: "体を「上へ」起こす。", cmp: [{ en: "I wake up at six.", p: "up", ja: "wake up は「目が覚める」。get up は「（ベッドから）起き上がる」。" }] },
+      { ph: "pick up", part: "up", en: "Pick up the trash.", ja: "ごみを拾って。", mean: "拾い上げる・（車で）迎えに行く", why: "下にあるものを「上へ」持ち上げる。" },
+      { ph: "give up", part: "up", en: "Don't give up!", ja: "あきらめないで！", mean: "あきらめる", why: "持っているものを「すっかり」手放して差し出す → あきらめる。" },
+      { ph: "grow up", part: "up", en: "I grew up in Osaka.", ja: "私は大阪で育った。", mean: "成長する・育つ", why: "背が「上へ」伸びていく → 成長する。" }
+    ]
+  },
+  "down": {
+    color: "#3A7CA5", core: "下へ",
+    coreLong: "上から「下へ」動くイメージ。音量や速さが下がる、言葉を紙の上に下ろす（書き留める）にも広がる。",
+    uses: [
+      { en: "Sit down, please.", ja: "座ってください。", why: "体を「下へ」。" },
+      { en: "He ran down the stairs.", ja: "彼は階段をかけ降りた。", why: "階段を「下へ」。", cmp: [{ en: "He ran up the stairs.", p: "up", ja: "階段をかけ「上がった」。" }] },
+      { en: "The sun went down.", ja: "日が沈んだ。", why: "太陽が「下へ」。" }
+    ],
+    pvs: [
+      { ph: "write down", part: "down", en: "Write down your name.", ja: "名前を書き留めて。", mean: "書き留める", why: "言葉を紙の上に「下ろす」→ 書き留める。" },
+      { ph: "turn down", part: "down", en: "Please turn down the TV.", ja: "テレビの音を小さくして。", mean: "（音量などを）下げる", why: "つまみを回して音量を「下へ」。", cmp: [{ en: "Please turn up the TV.", p: "up", ja: "音量を「上へ」＝大きくする。" }] },
+      { ph: "slow down", part: "down", en: "Slow down!", ja: "スピードを落として！", mean: "スピードを落とす", why: "速さを「下へ」。" }
+    ]
+  },
+  "off": {
+    color: "#7E5BD0", core: "くっついていたものから離れる",
+    coreLong: "くっついていたもの（on）から「離れる」イメージ。on の反対。スイッチが切れる、仕事から離れて休み、値段から差し引くにも広がる。",
+    uses: [
+      { en: "A button came off my shirt.", ja: "シャツのボタンがとれた。", why: "くっついていたボタンが「離れた」。" },
+      { en: "I'm off today.", ja: "今日は休みです。", why: "仕事から「離れて」いる。" },
+      { en: "Everything is 20% off.", ja: "全品20％引き。", why: "値段から20％が「離れて」差し引かれる。" },
+      { en: "Keep off the grass.", ja: "芝生に入らないで。", why: "芝生から「離れて」いなさい。" }
+    ],
+    pvs: [
+      { ph: "take off", part: "off", en: "Take off your shoes.", ja: "くつを脱いで。", mean: "脱ぐ・離陸する", why: "体にくっついていた服やくつを「離す」→ 脱ぐ。put on の反対。" },
+      { ph: "turn off", part: "off", en: "Turn off the TV.", ja: "テレビを消して。", mean: "（電気などを）消す", why: "回路の接触を「離す」。turn on の反対。" },
+      { ph: "get off", part: "off", en: "Get off the bus at the next stop.", ja: "次のバス停でバスを降りて。", mean: "（乗り物から）降りる", why: "乗り物の床から「離れる」。get on の反対。" }
+    ]
+  },
+  "out": {
+    color: "#D9822B", core: "中から外へ",
+    coreLong: "中から「外へ」出るイメージ。出てきて見えるようになる（現れる）、出しきってなくなる（すっかり・消える）にも広がる。",
+    uses: [
+      { en: "Let's go out.", ja: "出かけよう。", why: "家の中から「外へ」。" },
+      { en: "He took a pen out of his bag.", ja: "彼はかばんからペンを取り出した。", why: "かばんの「中から外へ」。out of で「〜の中から」。", cmp: [{ en: "He put a pen into his bag.", p: "into", ja: "外から中への動きは into。out of はその反対。" }] },
+      { en: "The stars came out.", ja: "星が出た。", why: "見えないところから「外へ」現れる。" },
+      { en: "The fire went out.", ja: "火が消えた。", why: "火が出ていって「なくなる」→ 消える。" }
+    ],
+    pvs: [
+      { ph: "find out", part: "out", en: "I found out the truth.", ja: "私は真実を知った。", mean: "（調べて）わかる・見つけ出す", why: "隠れていたものを「外へ」出して見つける。" },
+      { ph: "run out of", part: "out", en: "We ran out of milk.", ja: "牛乳を切らした。", mean: "〜を使い果たす", why: "中身が「外へ」出きってなくなる。" },
+      { ph: "watch out", part: "out", en: "Watch out!", ja: "気をつけて！", mean: "気をつける", why: "外に目を向けて見張る → 気をつける。" }
+    ]
+  },
+  "away": {
+    color: "#4E9A3A", core: "その場から遠くへ離れる",
+    coreLong: "今いる場所から「遠ざかっていく」イメージ。離れている距離（〜離れて）や、消えてなくなるにも広がる。前置詞ではなく副詞で、句動詞のパーツとしてよく使う。",
+    uses: [
+      { en: "Go away!", ja: "あっちへ行って！", why: "その場から「遠くへ」。" },
+      { en: "The station is two kilometers away.", ja: "駅は2キロ離れている。", why: "今いる所から「離れた」距離。" },
+      { en: "The bird flew away.", ja: "鳥は飛び去った。", why: "飛んで「遠ざかる」。" }
+    ],
+    pvs: [
+      { ph: "run away", part: "away", en: "The dog ran away.", ja: "犬が逃げた。", mean: "逃げる", why: "走ってその場から「遠ざかる」。" },
+      { ph: "throw away", part: "away", en: "Don't throw away this box.", ja: "この箱は捨てないで。", mean: "捨てる", why: "投げて自分から「遠ざける」→ 捨てる。" },
+      { ph: "put away", part: "away", en: "Put away your toys.", ja: "おもちゃを片づけなさい。", mean: "片づける・しまう", why: "目の前から「離れた」しまう場所へ置く。" }
+    ]
+  },
+  "back": {
+    color: "#A0522D", core: "もとの場所へもどる",
+    coreLong: "出ていったものが「もとの場所・状態へもどる」イメージ。返す、後ろへ、という意味にも広がる。前置詞ではなく副詞で、句動詞のパーツとしてよく使う。",
+    uses: [
+      { en: "I'll be back soon.", ja: "すぐにもどるね。", why: "もとの場所へ「もどる」。" },
+      { en: "Please step back.", ja: "後ろに下がってください。", why: "後ろの方へ「もどる」。", cmp: [{ en: "Please step away from the door.", p: "away", ja: "ドアから「離れて」ください。back は後ろへ下がる、away はその場から遠ざかる。" }] },
+      { en: "Write back to me soon.", ja: "すぐ返事を書いてね。", why: "手紙をくれた相手へ「もどす」→ 返事。" }
+    ],
+    pvs: [
+      { ph: "come back", part: "back", en: "Come back here!", ja: "ここにもどってきて！", mean: "もどってくる", why: "出ていった場所へ「もどる」。" },
+      { ph: "give back", part: "back", en: "Give back my pen.", ja: "ペンを返して。", mean: "返す", why: "もとの持ち主へ「もどす」。" },
+      { ph: "call back", part: "back", en: "I'll call you back.", ja: "折り返し電話するね。", mean: "折り返し電話する", why: "電話を相手へ「もどす」→ かけ直す。" }
+    ]
+  },
+  "by": {
+    color: "#21958A", core: "すぐそばに・〜によって",
+    coreLong: "あるものの「すぐそば」にあるイメージ。そばにあるものを使って（交通・通信の手段）、そばにいる人のしわざ（〜によって）、ある時点のそばまでに（期限）と広がる。",
+    uses: [
+      { en: "He sat by the window.", ja: "彼は窓のそばに座った。", why: "窓の「すぐそば」。" },
+      { en: "I go to school by bus.", ja: "バスで学校へ行く。", why: "バスという手段の「そば」に身を置いて移動 → 交通手段。a や the はつけない。", cmp: [{ en: "I go to school on the bus.", p: "on", ja: "これも正しい英文。特定の1台のバスに「乗って」行く、という言い方になる。" }] },
+      { en: "This book was written by Soseki.", ja: "この本は漱石によって書かれた。", why: "そばにいる「した人」を示す → 〜によって。" },
+      { en: "Finish it by Friday.", ja: "金曜日までに終えなさい。", why: "金曜日という点の「そば」までに → 期限。", cmp: [{ en: "I'll stay here until Friday.", p: "until", ja: "金曜日まで「ずっと続ける」なら until。by は「それまでに1回終わればよい」期限。" }] }
+    ],
+    pvs: [
+      { ph: "pass by", part: "by", en: "A dog passed by.", ja: "犬がそばを通りすぎた。", mean: "（そばを）通りすぎる", why: "すぐ「そば」を通る。" },
+      { ph: "stand by", part: "by", en: "I'll stand by you.", ja: "ぼくは君の味方だよ。", mean: "〜の味方をする・待機する", why: "相手の「そば」に立ち続ける → 味方する。" },
+      { ph: "drop by", part: "by", en: "Drop by anytime.", ja: "いつでも寄ってね。", mean: "立ち寄る", why: "通りがかりに「そば」へ寄る。" }
+    ]
+  },
+  "with": {
+    color: "#E2603F", core: "〜といっしょに・〜を持って",
+    coreLong: "2つのものが「いっしょにくっついている」イメージ。人といっしょ、道具を手に持って（〜で）、〜がついている（〜のある）にも広がる。",
+    uses: [
+      { en: "I went shopping with my sister.", ja: "姉と買い物に行った。", why: "姉と「いっしょに」。" },
+      { en: "Write your name with a pen.", ja: "ペンで名前を書きなさい。", why: "ペンを手に「持って」→ 道具。", cmp: [{ en: "Send it by email.", p: "by", ja: "交通・通信の手段は by。手に持って使う道具は with。" }] },
+      { en: "I know a girl with long hair.", ja: "髪の長い女の子を知っている。", why: "長い髪が「くっついている」→ 〜のある。" }
+    ],
+    pvs: [
+      { ph: "help ~ with", part: "with", en: "Can you help me with my homework?", ja: "宿題を手伝ってくれる？", mean: "〜の…を手伝う", why: "手伝いが宿題と「いっしょに」くっつく → 宿題のことで手伝う。" },
+      { ph: "agree with", part: "with", en: "I agree with you.", ja: "あなたに賛成です。", mean: "〜に賛成する・同じ意見だ", why: "相手の考えと「いっしょ」になる。" },
+      { ph: "be filled with", part: "with", en: "The box is filled with toys.", ja: "箱はおもちゃでいっぱいだ。", mean: "〜でいっぱいだ", why: "箱がおもちゃと「いっしょに」満たされている。" }
+    ]
+  },
+  "of": {
+    color: "#6D597A", core: "全体とつながる一部",
+    coreLong: "大きな全体と「つながっている一部」のイメージ。〜の一部、〜の中の、〜の（持ち主・所属）、見てわかる材料などを表す。",
+    uses: [
+      { en: "He is one of my friends.", ja: "彼は私の友だちの一人だ。", why: "友だち全体と「つながった一部」。" },
+      { en: "I'd like a cup of tea.", ja: "紅茶を1杯ください。", why: "紅茶全体から取り出した、カップ1杯ぶんの一部。" },
+      { en: "What's the name of this flower?", ja: "この花の名前は何？", why: "名前が花と「つながって」いる → 〜の。" },
+      { en: "This desk is made of wood.", ja: "この机は木でできている。", why: "机と木が「つながったまま」見える → 材料。", cmp: [{ en: "Cheese is made from milk.", p: "from", ja: "元の形が見えなくなるときは from（出発点）。" }] }
+    ],
+    pvs: [
+      { ph: "think of", part: "of", en: "I thought of a good idea.", ja: "いい考えを思いついた。", mean: "〜を思いつく・思い浮かべる", why: "考えが頭と「つながって」ぱっと出てくる。", cmp: [{ en: "I thought about the problem.", p: "about", ja: "think about は問題の「まわり」をあれこれ考える。think of はぱっと思いつく・思い浮かべる。" }] },
+      { ph: "take care of", part: "of", en: "Take care of your sister.", ja: "妹の面倒を見てね。", mean: "〜の世話をする", why: "世話（care）が妹と「つながる」。" },
+      { ph: "be afraid of", part: "of", en: "I'm afraid of dogs.", ja: "私は犬がこわい。", mean: "〜をこわがる", why: "こわい気持ちが犬と「つながって」いる → 原因。" }
+    ]
+  },
+  "about": {
+    color: "#A88200", core: "〜のまわり・〜について",
+    coreLong: "ある話題の「まわり」を取り巻くイメージ。話題を示す「〜について」、数のまわり＝「約〜」にも広がる。",
+    uses: [
+      { en: "Let's talk about the trip.", ja: "旅行について話そう。", why: "話が旅行の「まわり」を取り巻く → 〜について。" },
+      { en: "This is a book about cats.", ja: "これはネコについての本だ。", why: "内容がネコの「まわり」。" },
+      { en: "It takes about ten minutes.", ja: "約10分かかる。", why: "10分ちょうどではなく、その「まわり」→ 約〜。", cmp: [{ en: "It takes around ten minutes.", p: "around", ja: "これも正しい英文で、ほぼ同じ意味。around は「ぐるっと回る」から、about は「まわりを取り巻く」から来ている。" }] },
+      { en: "How about you?", ja: "あなたはどう？", why: "話題の「まわり」にあなたを置く → 〜はどう？" }
+    ],
+    pvs: [
+      { ph: "worry about", part: "about", en: "Don't worry about it.", ja: "そのことは心配しないで。", mean: "〜を心配する", why: "心配が話題の「まわり」をぐるぐる回る。" },
+      { ph: "hear about", part: "about", en: "Did you hear about the news?", ja: "そのニュースのこと聞いた？", mean: "〜について聞く", why: "話題の「まわり」の情報を聞く。" },
+      { ph: "think about", part: "about", en: "I'm thinking about my future.", ja: "将来のことを考えている。", mean: "〜について考える", why: "考えが将来の「まわり」をめぐる。" }
+    ]
+  },
+  "between": {
+    color: "#3D5A80", core: "2つのものの間",
+    coreLong: "はっきり区別できる2つのものの「間」にはさまれているイメージ。場所・時間・2者の関係に使う。",
+    uses: [
+      { en: "The bank is between the school and the park.", ja: "銀行は学校と公園の間にある。", why: "2つの建物の「間」。" },
+      { en: "Come between 3 and 4.", ja: "3時から4時の間に来てください。", why: "2つの時刻の「間」。" },
+      { en: "This is a secret between you and me.", ja: "これは君とぼくの間の秘密だ。", why: "2人の「間」だけ。", cmp: [{ en: "This song is popular among students.", p: "among", ja: "たくさんの人のかたまりの「中で」なら among。2者の間なら between。" }] }
+    ],
+    pvs: []
+  },
+  "among": {
+    color: "#6F9A2E", core: "たくさんのものに囲まれて",
+    coreLong: "区別しないひとかたまりの、たくさんのものの「中に囲まれて」いるイメージ。〜の中で（人気など）にも使う。",
+    uses: [
+      { en: "The house stands among the trees.", ja: "家は木々に囲まれて建っている。", why: "たくさんの木の「中に」囲まれて。", cmp: [{ en: "The house stands between two trees.", p: "between", ja: "2本の木の「間」にはさまれているなら between。" }] },
+      { en: "This song is popular among young people.", ja: "この歌は若者の間で人気だ。", why: "若者たちのかたまりの「中で」。" },
+      { en: "I found my key among the papers.", ja: "書類にまぎれていた鍵を見つけた。", why: "たくさんの書類に「囲まれて」いた。" }
+    ],
+    pvs: []
+  },
+  "against": {
+    color: "#C1121F", core: "ぶつかる・逆らう",
+    coreLong: "何かに「ぶつかって押し合う」イメージ。反対する、逆らう、試合の相手、もたれかかる、と広がる。",
+    uses: [
+      { en: "I'm against the plan.", ja: "私はその計画に反対だ。", why: "計画と「ぶつかり合う」→ 反対。", cmp: [{ en: "I'm for the plan.", p: "for", ja: "賛成は for（気持ちが向かう）、反対は against（ぶつかる）。" }] },
+      { en: "We played against a strong team.", ja: "私たちは強いチームと対戦した。", why: "相手と「ぶつかり合う」→ 対戦相手。" },
+      { en: "He leaned against the wall.", ja: "彼は壁にもたれた。", why: "壁に体を「押しつける」→ もたれる。", cmp: [{ en: "There is a picture on the wall.", p: "on", ja: "壁にくっついているだけなら on。力をかけて押しつけているのが against。" }] },
+      { en: "We walked against the wind.", ja: "私たちは風に逆らって歩いた。", why: "風と「ぶつかる」向きに進む。" }
+    ],
+    pvs: []
+  }
+});
+
+/* across の句動詞を補う（各2個以上に） */
+PREPS["across"].pvs.push({ ph: "get across", part: "across", en: "I couldn't get my idea across.", ja: "自分の考えをうまく伝えられなかった。", mean: "（考えを）伝える・伝わる", why: "考えが相手との間を「横切って」向こう側に届く → 伝わる。" });
+
+/* ===== 追加グループ ===== */
+const G_TIME = {
+  id: "gT", title: "時間の4兄弟", sub: "for と during・before と after",
+  preps: ["for", "during", "before", "after"],
+  mix: [
+    { id: "gTm1", s: "I lived in London ___ three years.", ja: "ロンドンに3年間住んでいた。", a: "for", x: ["during","among","across"], why: "「3年」という長さの分だけ続いた。期間の長さは for。", cmp: [{ en: "I lived in London during the war.", p: "during", ja: "「戦争中」という決まった期間の中で、なら during。" }] },
+    { id: "gTm2", s: "I caught a cold ___ the winter vacation.", ja: "冬休み中にかぜをひいた。", a: "during", x: ["for","among","against"], why: "冬休みという決まった期間の「中で」起きた。" },
+    { id: "gTm3", s: "Wash your hands ___ dinner.", ja: "夕食の前に手を洗いなさい。", a: "before", x: ["across","under","among"], why: "夕食という点より「前」。" },
+    { id: "gTm4", s: "Let's play soccer ___ school.", ja: "放課後にサッカーをしよう。", a: "after", x: ["across","among","of"], why: "学校が終わった点の「あと」。" },
+    { id: "gTm5", s: "We waited ___ two hours.", ja: "私たちは2時間待った。", a: "for", x: ["during","among","across"], why: "「2時間」という長さ。数字の長さには during ではなく for。" },
+    { id: "gTm6", s: "Please don't use your phone ___ the test.", ja: "テスト中は携帯電話を使わないで。", a: "during", x: ["among","across","of"], why: "テストという決まった期間の「中で」ずっと。" },
+    { id: "gTm7", s: "Brush your teeth ___ you go to bed.", ja: "寝る前に歯をみがきなさい。", a: "before", x: ["during","for","among"], why: "寝るという点より「前」。後ろに主語＋動詞が来ている。" },
+    { id: "gTm8", s: "I'll call you ___ lunch.", ja: "昼食のあとで電話するね。", a: "after", x: ["among","across","under"], why: "昼食という点の「あと」。" },
+    { id: "gTm9", s: "This present is ___ you.", ja: "このプレゼントはあなたにです。", a: "for", x: ["during","before","among"], why: "プレゼントの気持ちがあなたに「向かっている」。" },
+    { id: "gTm10", s: "He left ___ Osaka this morning.", ja: "彼は今朝、大阪へ向けて出発した。", a: "for", x: ["during","among","under"], why: "大阪に「向かって」出発。leave for で「〜へ向けて出発する」。" },
+    { id: "gTm11", s: "The dog ran ___ the cat.", ja: "犬はネコを追いかけた。", a: "after", x: ["during","among","of"], why: "ネコの「あとを」追う。" },
+    { id: "gTm12", s: "Your name comes ___ mine on the list.", ja: "リストではあなたの名前が私の前に来る。", a: "before", x: ["during","among","across"], why: "順番の上で「前」。" },
+    { id: "gTt1", type: "tf", s: "I studied English {during} two hours.", ok: false, a: "for", why: "「2時間」という数字の長さには for。during の後ろには期間の名前（夏休み・授業など）が来る。" },
+    { id: "gTt2", type: "tf", s: "I fell asleep {during} the movie.", ok: true, a: "during", why: "映画という決まった期間の「中で」眠ったので during で正しい。" },
+    { id: "gTt3", type: "tf", s: "Thank you {after} your help.", ok: false, a: "for", why: "感謝の気持ちが手伝いに「向かう」ので for。" }
+  ],
+  pvq: [
+    { id: "gTp1", s: "I'm looking ___ my key.", ja: "鍵を探しているんだ。", a: "for", x: ["during","among","across"], why: "まだ見つからない鍵に視線が「向かう」→ look for（探す）。" },
+    { id: "gTp2", s: "I'll wait ___ you at the gate.", ja: "門のところで君を待つよ。", a: "for", x: ["during","among","across"], why: "来る人に気持ちが「向かって」待つ → wait for。" },
+    { id: "gTp3", s: "He asked ___ some water.", ja: "彼は水を求めた。", a: "for", x: ["during","among","across"], why: "求める気持ちが水に「向かう」→ ask for。" },
+    { id: "gTp4", s: "I look ___ my little brother on Sundays.", ja: "日曜日は弟の世話をしている。", a: "after", x: ["during","among","across"], why: "あとからついて見守る → look after（世話をする）。" },
+    { id: "gTp5", s: "She takes ___ her mother.", ja: "彼女は母親に似ている。", a: "after", x: ["during","among","across"], why: "親の「あとを」受けついでいる → take after（似ている）。" }
+  ]
+};
+
+const G_DIR = {
+  id: "gD", title: "方向の3兄弟", sub: "向かって着く・出発する・中へ入る",
+  preps: ["to", "from", "into"],
+  mix: [
+    { id: "gDm1", s: "I walk ___ school every day.", ja: "毎日歩いて学校へ行く。", a: "to", x: ["into","among","of"], why: "学校に「着く」ところまで → to。" },
+    { id: "gDm2", s: "I'm ___ Canada.", ja: "私はカナダ出身です。", a: "from", x: ["to","into","among"], why: "出発点（出身）がカナダ。" },
+    { id: "gDm3", s: "He jumped ___ the river.", ja: "彼は川に飛び込んだ。", a: "into", x: ["from","among","of"], why: "外から川の「中へ」入っていく動き。" },
+    { id: "gDm4", s: "The shop is open ___ 10 a.m. to 8 p.m.", a: "from", x: ["into","among","with"], why: "始まりの点が from、終わりの点が to。" },
+    { id: "gDm5", s: "Give this letter ___ your mother.", ja: "この手紙をお母さんに渡して。", a: "to", x: ["from","into","among"], why: "手紙がお母さんのところまで「届く」。" },
+    { id: "gDm6", s: "I got an email ___ Mike.", ja: "マイクからメールが来た。", a: "from", x: ["into","among","under"], why: "メールの「出発点」がマイク。" },
+    { id: "gDm7", s: "Put the milk ___ the fridge.", ja: "牛乳を冷蔵庫に入れて。", a: "into", x: ["from","among","across"], why: "外から冷蔵庫の「中へ」移す動き。", cmp: [{ en: "The milk is in the fridge.", p: "in", ja: "牛乳が冷蔵庫の「中にある」状態なら in。" }] },
+    { id: "gDm8", s: "Cut the cake ___ eight pieces.", ja: "ケーキを8つに切って。", a: "into", x: ["from","among","across"], why: "ケーキが「8切れ」という形の中へ入っていく → 〜に（分ける）。" },
+    { id: "gDm9", s: "Cheese is made ___ milk.", ja: "チーズは牛乳から作られる。", a: "from", x: ["to","among","across"], why: "原料が「出発点」。元の形が見えなくなるときは from。" },
+    { id: "gDm10", s: "It's ten minutes ___ here to the station.", ja: "ここから駅まで10分です。", a: "from", x: ["into","among","under"], why: "ここが「出発点」、駅が終わりの点（to）。" },
+    { id: "gDm11", s: "Listen ___ me.", ja: "私の話を聞いて。", a: "to", x: ["from","into","among"], why: "耳を相手の言葉まで「届かせる」→ listen to。" },
+    { id: "gDm12", s: "He came ___ the room.", ja: "彼は部屋に入ってきた。", a: "into", x: ["among","of","about"], why: "外から部屋の「中へ」入っていく動き。" },
+    { id: "gDt1", type: "tf", s: "I'm {to} Tokyo.", ja: "私は東京出身です。", ok: false, a: "from", why: "東京が「出発点（出身）」なので from。" },
+    { id: "gDt2", type: "tf", s: "Give it {from} me.", ja: "それを私にちょうだい。", ok: false, a: "to", why: "物が私のところまで「届く」ので to。" },
+    { id: "gDt3", type: "tf", s: "She jumped {into} the pool.", ja: "彼女はプールに飛び込んだ。", ok: true, a: "into", why: "外から中へ「入っていく」動きなので into で正しい。", cmp: [{ en: "She swam in the pool.", p: "in", ja: "プールの「中で」泳いだ。中にいる状態なら in。" }] }
+  ],
+  pvq: [
+    { id: "gDp1", s: "How can I get ___ the station?", ja: "駅へはどう行けばいいですか。", a: "to", x: ["from","among","under"], why: "駅に「到着」する → get to。" },
+    { id: "gDp2", s: "This bag belongs ___ me.", ja: "このかばんは私のものです。", a: "to", x: ["from","into","among"], why: "かばんが私のところに「届いて」くっついている → belong to。" },
+    { id: "gDp3", s: "Can I talk ___ you for a minute?", ja: "ちょっと話せる？", a: "to", x: ["from","into","among"], why: "言葉を相手まで「届ける」→ talk to。" },
+    { id: "gDp4", s: "I hope to hear ___ you soon.", ja: "すぐに連絡をもらえるとうれしいです。", a: "from", x: ["into","among","under"], why: "知らせの「出発点」が相手 → hear from。" },
+    { id: "gDp5", s: "He graduated ___ high school last year.", ja: "彼は去年、高校を卒業した。", a: "from", x: ["into","among","under"], why: "学校を「出発点」にして出ていく → graduate from。" },
+    { id: "gDp6", s: "Get ___ the car. It's starting to rain.", ja: "車に乗って。雨が降ってきたよ。", a: "into", x: ["from","among","of"], why: "車の「中へ」入っていく → get into。" },
+    { id: "gDp7", s: "I ran ___ Ken at the station.", ja: "駅でケンにばったり会った。", a: "into", x: ["among","of","under"], why: "相手の「中へ」飛び込むようにぶつかる → run into（ばったり会う）。" },
+    { id: "gDp8", s: "Water turns ___ ice at 0℃.", ja: "水は0℃で氷に変わる。", a: "into", x: ["from","among","under"], why: "氷という姿の「中へ」入っていく → turn into（〜に変わる）。" }
+  ]
+};
+
+const G_UPDOWN = {
+  id: "gU", title: "上と下", sub: "越える・下に・上がる・下がる",
+  preps: ["over", "under", "up", "down"],
+  mix: [
+    { id: "gUm1", s: "The plane flew ___ the mountain.", ja: "飛行機は山の上を飛んでいった。", a: "over", x: ["under","among","of"], why: "山の上を弧をえがいて「こえて」いく。" },
+    { id: "gUm2", s: "The cat is sleeping ___ the table.", ja: "ネコはテーブルの下で眠っている。", a: "under", x: ["over","among","of"], why: "テーブルの「真下」。" },
+    { id: "gUm3", s: "He climbed ___ the tree.", ja: "彼は木に登った。", a: "up", x: ["down","among","of"], why: "下から「上へ」。" },
+    { id: "gUm4", s: "Sit ___, please.", ja: "座ってください。", a: "down", x: ["up","among","of"], why: "体を「下へ」。" },
+    { id: "gUm5", s: "There is a bridge ___ the river.", ja: "川に橋がかかっている。", a: "over", x: ["under","among","of"], why: "川の上を「おおう」ようにまたぐ。" },
+    { id: "gUm6", s: "Children ___ six can come in for free.", ja: "6歳未満の子どもは無料で入れます。", a: "under", x: ["over","up","among"], why: "6という線より「下」→ 〜未満。" },
+    { id: "gUm7", s: "My grandfather is ___ eighty.", ja: "祖父は80歳を超えている。", a: "over", x: ["under","among","into"], why: "80という線を「こえて」いる。" },
+    { id: "gUm8", s: "Prices went ___ last year.", ja: "去年、値段が上がった。", a: "up", x: ["down","under","among"], why: "数が「上へ」。" },
+    { id: "gUm9", s: "The sun went ___ behind the mountains.", ja: "太陽が山のむこうに沈んだ。", a: "down", x: ["up","among","of"], why: "太陽が「下へ」。" },
+    { id: "gUm10", s: "The game is ___.", ja: "試合は終わった。", a: "over", x: ["under","among","of"], why: "山を最後までこえきった → 終わった。" },
+    { id: "gUm11", s: "I wore a T-shirt ___ my sweater.", ja: "セーターの下にTシャツを着た。", a: "under", x: ["over","up","of"], why: "セーターに「おおわれた下」。" },
+    { id: "gUm12", s: "Eat ___ your vegetables.", ja: "野菜を全部食べなさい。", a: "up", x: ["under","among","of"], why: "量が上まで達して「すっかり」→ 全部。" },
+    { id: "gUt1", type: "tf", s: "Stand {down}, please.", ja: "立ってください。", ok: false, a: "up", why: "体を「上へ」起こすので stand up。座るのは sit down。" },
+    { id: "gUt2", type: "tf", s: "We walked {over} the bridge.", ja: "私たちは橋を歩いて渡った。", ok: true, a: "over", why: "川の上をまたぐ橋を「こえて」いくので over で正しい。", cmp: [{ en: "We walked across the bridge.", p: "across", ja: "これも正しい英文。橋を平面として「横切る」見方。" }] },
+    { id: "gUt3", type: "tf", s: "It's too loud. Turn {up} the music.", ja: "うるさいよ。音楽の音を小さくして。", ok: false, a: "down", why: "音量を「下へ」なので turn down。turn up は大きくする。" }
+  ],
+  pvq: [
+    { id: "gUp1", s: "She got ___ her cold quickly.", ja: "彼女はすぐにかぜから回復した。", a: "over", x: ["under","among","of"], why: "困難という山を「こえる」→ get over。" },
+    { id: "gUp2", s: "Turn ___ the card and read the answer.", ja: "カードを裏返して答えを読んで。", a: "over", x: ["under","among","of"], why: "弧をえがいてくるっと反対側へ → turn over。" },
+    { id: "gUp3", s: "I get ___ at six every morning.", ja: "私は毎朝6時に起きる。", a: "up", x: ["under","among","of"], why: "体を「上へ」起こす → get up。" },
+    { id: "gUp4", s: "Don't give ___! You can do it.", ja: "あきらめないで！君ならできる。", a: "up", x: ["under","among","of"], why: "すっかり手放して差し出す → give up（あきらめる）。" },
+    { id: "gUp5", s: "Please pick ___ the trash.", ja: "ごみを拾ってください。", a: "up", x: ["under","among","of"], why: "下にあるものを「上へ」→ pick up。" },
+    { id: "gUp6", s: "I grew ___ in Osaka.", ja: "私は大阪で育った。", a: "up", x: ["under","among","of"], why: "背が「上へ」伸びていく → grow up。" },
+    { id: "gUp7", s: "Write ___ your name here.", ja: "ここに名前を書き留めて。", a: "down", x: ["under","among","of"], why: "言葉を紙の上に「下ろす」→ write down。" },
+    { id: "gUp8", s: "Please turn ___ the TV. The baby is sleeping.", ja: "テレビの音を小さくして。赤ちゃんが寝ているから。", a: "down", x: ["under","among","of"], why: "音量を「下へ」→ turn down。" },
+    { id: "gUp9", s: "Slow ___! You're driving too fast.", ja: "スピードを落として！速すぎるよ。", a: "down", x: ["under","among","of"], why: "速さを「下へ」→ slow down。" }
+  ]
+};
+
+const G_OFF = {
+  id: "gO", title: "離れる・出る・もどる", sub: "off / out / away / back",
+  preps: ["off", "out", "away", "back"],
+  mix: [
+    { id: "gOm1", s: "Everything in this store is 20% ___.", ja: "この店は全品20％引きです。", a: "off", x: ["out","away","back"], why: "値段から20％が「離れて」差し引かれる。" },
+    { id: "gOm2", s: "A button came ___ my shirt.", ja: "シャツのボタンがとれた。", a: "off", x: ["away","among","into"], why: "くっついていたボタンが「離れた」。" },
+    { id: "gOm3", s: "I'm ___ today, so let's go shopping.", ja: "今日は休みだから、買い物に行こう。", a: "off", x: ["among","into","of"], why: "仕事から「離れて」いる → 休み。" },
+    { id: "gOm4", s: "Let's go ___ for dinner tonight.", ja: "今夜は夕食を食べに出かけよう。", a: "out", x: ["among","under","of"], why: "家の中から「外へ」。" },
+    { id: "gOm5", s: "He took a pen ___ of his bag.", ja: "彼はかばんからペンを取り出した。", a: "out", x: ["away","among","under"], why: "かばんの「中から外へ」。out of で「〜の中から」。" },
+    { id: "gOm6", s: "The station is three kilometers ___.", ja: "駅は3キロ離れている。", a: "away", x: ["among","into","of"], why: "今いる所から「離れた」距離。" },
+    { id: "gOm7", s: "Go ___! I'm busy now.", ja: "あっちへ行って！今いそがしいの。", a: "away", x: ["among","into","of"], why: "その場から「遠くへ」。" },
+    { id: "gOm8", s: "I'll be ___ in ten minutes.", ja: "10分でもどります。", a: "back", x: ["among","into","of"], why: "もとの場所へ「もどる」。" },
+    { id: "gOm9", s: "Please write ___ to me soon.", ja: "すぐ返事を書いてね。", a: "back", x: ["among","into","of"], why: "手紙をくれた相手へ「もどす」→ 返事。" },
+    { id: "gOm10", s: "The stars came ___ one by one.", ja: "星がひとつずつ出てきた。", a: "out", x: ["among","under","of"], why: "見えないところから「外へ」現れる。" },
+    { id: "gOm11", s: "Keep ___ the grass.", ja: "芝生に入らないでください。", a: "off", x: ["among","into","of"], why: "芝生から「離れて」いなさい。" },
+    { id: "gOm12", s: "The fire went ___.", ja: "火が消えた。", a: "out", x: ["among","into","of"], why: "火が出ていって「なくなる」→ 消える。" },
+    { id: "gOt1", type: "tf", s: "Take {out} your shoes here.", ja: "ここでくつを脱いでください。", ok: false, a: "off", why: "くつを体から「離す」ので take off。take out は「取り出す」。" },
+    { id: "gOt2", type: "tf", s: "Please give {back} my book.", ja: "私の本を返してください。", ok: true, a: "back", why: "もとの持ち主へ「もどす」ので back で正しい。" },
+    { id: "gOt3", type: "tf", s: "Get {out} the bus at the next stop.", ja: "次のバス停でバスを降りて。", ok: false, a: "off", why: "乗り物の床から「離れる」ので get off。" }
+  ],
+  pvq: [
+    { id: "gOp1", s: "Take ___ your coat and sit down.", ja: "コートを脱いで座って。", a: "off", x: ["among","into","of"], why: "体にくっついていた服を「離す」→ take off（脱ぐ）。" },
+    { id: "gOp2", s: "Turn ___ the light when you leave.", ja: "出るときは電気を消してね。", a: "off", x: ["among","into","of"], why: "回路の接触を「離す」→ turn off（消す）。" },
+    { id: "gOp3", s: "I found ___ the truth yesterday.", ja: "きのう真実を知った。", a: "out", x: ["among","into","of"], why: "隠れていたものを「外へ」出して見つける → find out。" },
+    { id: "gOp4", s: "We ran ___ of milk.", ja: "牛乳を切らした。", a: "out", x: ["among","into","under"], why: "中身が「外へ」出きってなくなる → run out of。" },
+    { id: "gOp5", s: "Watch ___! A car is coming.", ja: "気をつけて！車が来るよ。", a: "out", x: ["among","into","of"], why: "外に目を向けて見張る → watch out（気をつける）。" },
+    { id: "gOp6", s: "Don't run ___ from your problems.", ja: "問題から逃げないで。", a: "away", x: ["among","into","of"], why: "走ってその場から「遠ざかる」→ run away（逃げる）。" },
+    { id: "gOp7", s: "Come ___ here right now!", ja: "今すぐここにもどってきて！", a: "back", x: ["among","into","of"], why: "出ていった場所へ「もどる」→ come back。" },
+    { id: "gOp8", s: "I'm busy now. I'll call you ___.", ja: "今いそがしいから、折り返し電話するね。", a: "back", x: ["among","into","of"], why: "電話を相手へ「もどす」→ call back。" }
+  ]
+};
+
+const G_BY = {
+  id: "gB", title: "手段のペア", sub: "by と with の使い分け",
+  preps: ["by", "with"],
+  mix: [
+    { id: "gBm1", s: "I go to school ___ bus.", a: "by", x: ["with","at","among"], why: "交通手段は by。a や the はつけない。" },
+    { id: "gBm2", s: "Write your name ___ a pen.", a: "with", x: ["by","among","of"], why: "ペンを手に「持って」使う → 道具の with。" },
+    { id: "gBm3", s: "This picture was painted ___ Picasso.", a: "by", x: ["with","among","into"], why: "そばにいる「した人」を示す → 〜によって。" },
+    { id: "gBm4", s: "I went to the zoo ___ my family.", a: "with", x: ["by","among","of"], why: "家族と「いっしょに」。" },
+    { id: "gBm5", s: "Please finish your homework ___ Friday.", ja: "金曜日までに宿題を終えなさい。", a: "by", x: ["with","among","into"], why: "金曜日という点の「そば」までに → 期限の by。", cmp: [{ en: "I'll stay here until Friday.", p: "until", ja: "金曜日まで「ずっと続ける」なら until。by は「それまでに終わればよい」期限。" }] },
+    { id: "gBm6", s: "He sat ___ the window.", ja: "彼は窓のそばに座った。", a: "by", x: ["with","among","of"], why: "窓の「すぐそば」。" },
+    { id: "gBm7", s: "I know a girl ___ long hair.", a: "with", x: ["by","among","into"], why: "長い髪が「くっついている」→ 〜のある。" },
+    { id: "gBm8", s: "Please send it ___ email.", a: "by", x: ["with","among","into"], why: "通信の手段は by。" },
+    { id: "gBm9", s: "Cut the paper ___ scissors.", a: "with", x: ["by","among","of"], why: "はさみを手に「持って」使う → 道具の with。" },
+    { id: "gBm10", s: "I agree ___ you.", a: "with", x: ["by","among","into"], why: "相手の考えと「いっしょ」になる → agree with。" },
+    { id: "gBt1", type: "tf", s: "I came here {with} train.", ok: false, a: "by", why: "電車は交通手段なので by train。" },
+    { id: "gBt2", type: "tf", s: "Eat your soup {with} a spoon.", ok: true, a: "with", why: "スプーンを手に「持って」使うので with で正しい。" },
+    { id: "gBt3", type: "tf", s: "This book was written {with} Natsume Soseki.", ok: false, a: "by", why: "書いた人を示すのは by（〜によって）。" }
+  ],
+  pvq: [
+    { id: "gBp1", s: "Drop ___ anytime.", ja: "いつでも寄ってね。", a: "by", x: ["with","among","into"], why: "通りがかりに「そば」へ寄る → drop by。" },
+    { id: "gBp2", s: "A man passed ___ without saying anything.", ja: "男の人が何も言わずにそばを通りすぎた。", a: "by", x: ["with","among","into"], why: "すぐ「そば」を通る → pass by。" },
+    { id: "gBp3", s: "Can you help me ___ my homework?", ja: "宿題を手伝ってくれる？", a: "with", x: ["by","among","into"], why: "手伝いが宿題と「いっしょに」くっつく → help ~ with。" },
+    { id: "gBp4", s: "The box is filled ___ old toys.", ja: "箱は古いおもちゃでいっぱいだ。", a: "with", x: ["by","among","into"], why: "箱がおもちゃと「いっしょに」満たされている → be filled with。" },
+    { id: "gBp5", s: "I don't agree ___ his idea.", ja: "私は彼の考えに賛成しない。", a: "with", x: ["by","among","into"], why: "考えと「いっしょ」にならない → agree with の否定。" }
+  ]
+};
+
+const G_OF = {
+  id: "gF", title: "「の」と「について」", sub: "of と about",
+  preps: ["of", "about"],
+  mix: [
+    { id: "gFm1", s: "He is one ___ my friends.", a: "of", x: ["about","into","under"], why: "友だち全体と「つながった一部」→ one of。" },
+    { id: "gFm2", s: "Let's talk ___ the school trip.", a: "about", x: ["into","under","among"], why: "話が修学旅行の「まわり」を取り巻く → 〜について。" },
+    { id: "gFm3", s: "I'd like a cup ___ coffee.", a: "of", x: ["about","into","by"], why: "コーヒー全体から取り出したカップ1杯ぶんの一部。" },
+    { id: "gFm4", s: "It takes ___ twenty minutes.", a: "about", x: ["of","into","among"], why: "20分ちょうどではなく、その「まわり」→ 約〜。" },
+    { id: "gFm5", s: "This is a book ___ dinosaurs.", ja: "これは恐竜についての本だ。", a: "about", x: ["into","under","among"], why: "内容が恐竜の「まわり」→ 〜についての。" },
+    { id: "gFm6", s: "What's the name ___ this flower?", a: "of", x: ["about","into","under"], why: "名前が花と「つながって」いる → 〜の。" },
+    { id: "gFm7", s: "This chair is made ___ wood.", a: "of", x: ["about","into","among"], why: "いすと木が「つながったまま」見える → 材料の of。" },
+    { id: "gFm8", s: "How ___ going to the movies?", a: "about", x: ["of","into","among"], why: "話題の「まわり」に置いて提案する → How about 〜？" },
+    { id: "gFm9", s: "Most ___ the students live near the school.", a: "of", x: ["about","into","among"], why: "生徒全体と「つながった」大部分 → most of。" },
+    { id: "gFm10", s: "I'm worried ___ the test.", a: "about", x: ["of","into","among"], why: "心配がテストの「まわり」をぐるぐる回る → worried about。" },
+    { id: "gFt1", type: "tf", s: "I'm proud {about} my sister.", ok: false, a: "of", why: "誇らしい気持ちが姉と「つながって」いる → be proud of。" },
+    { id: "gFt2", type: "tf", s: "Don't worry {of} me.", ok: false, a: "about", why: "心配が私の「まわり」をめぐる → worry about。" },
+    { id: "gFt3", type: "tf", s: "Let's talk {about} music.", ok: true, a: "about", why: "話が音楽の「まわり」を取り巻くので about で正しい。" }
+  ],
+  pvq: [
+    { id: "gFp1", s: "Take care ___ your little sister.", ja: "妹の面倒を見てね。", a: "of", x: ["about","into","among"], why: "世話が妹と「つながる」→ take care of。" },
+    { id: "gFp2", s: "I'm afraid ___ big dogs.", ja: "私は大きな犬がこわい。", a: "of", x: ["about","into","among"], why: "こわい気持ちが犬と「つながって」いる → be afraid of。" },
+    { id: "gFp3", s: "I thought ___ a good idea in the bath.", ja: "おふろでいい考えを思いついた。", a: "of", x: ["into","among","under"], why: "考えがぱっと「つながって」出てくる → think of（思いつく）。", cmp: [{ en: "I thought about the problem in the bath.", p: "about", ja: "おふろでその問題について「あれこれ考えた」。think about は話題のまわりをめぐって考える。" }] },
+    { id: "gFp4", s: "Don't worry ___ the mistake.", ja: "そのミスのことは心配しないで。", a: "about", x: ["of","into","among"], why: "心配が話題の「まわり」を回る → worry about。" },
+    { id: "gFp5", s: "Did you hear ___ the new teacher?", ja: "新しい先生のこと聞いた？", a: "about", x: ["into","among","under"], why: "話題の「まわり」の情報を聞く → hear about。", cmp: [{ en: "I've never heard of that teacher.", p: "of", ja: "hear of は「（名前や存在を）聞いたことがある」。hear about はくわしい話を聞く。" }] }
+  ]
+};
+
+const G_REL = {
+  id: "gR", title: "間とぶつかる", sub: "between / among / against",
+  preps: ["between", "among", "against"],
+  mix: [
+    { id: "gRm1", s: "The bank is ___ the post office and the hospital.", a: "between", x: ["among","against","into"], why: "2つの建物の「間」。A and B の形は between。" },
+    { id: "gRm2", s: "The little house stands ___ the tall trees.", ja: "小さな家は高い木々に囲まれて建っている。", a: "among", x: ["against","into","of"], why: "たくさんの木の「中に」囲まれて。", cmp: [{ en: "The little house stands between two tall trees.", p: "between", ja: "2本の木の「間」にはさまれているなら between。" }] },
+    { id: "gRm3", s: "I'm ___ the plan.", ja: "私はその計画に反対です。", a: "against", x: ["between","among","into"], why: "計画と「ぶつかり合う」→ 反対。" },
+    { id: "gRm4", s: "This singer is popular ___ young people.", a: "among", x: ["between","against","into"], why: "若者たちのかたまりの「中で」。" },
+    { id: "gRm5", s: "Please come ___ 2 and 3 o'clock.", a: "between", x: ["among","against","into"], why: "2つの時刻の「間」。" },
+    { id: "gRm6", s: "He leaned ___ the wall.", ja: "彼は壁にもたれた。", a: "against", x: ["between","among","into"], why: "壁に体を「押しつける」→ もたれる。" },
+    { id: "gRm7", s: "We played ___ a team from Osaka.", ja: "私たちは大阪のチームと対戦した。", a: "against", x: ["between","among","into"], why: "相手と「ぶつかり合う」→ 対戦相手。" },
+    { id: "gRm8", s: "This is a secret ___ you and me.", a: "between", x: ["among","against","into"], why: "2人の「間」だけ。" },
+    { id: "gRm9", s: "We walked ___ the strong wind.", ja: "私たちは強い風に逆らって歩いた。", a: "against", x: ["between","among","of"], why: "風と「ぶつかる」向きに進む → 逆らって。" },
+    { id: "gRm10", s: "I found my key ___ the papers on the desk.", ja: "机の上の書類にまぎれていた鍵を見つけた。", a: "among", x: ["against","into","of"], why: "たくさんの書類に「囲まれて」いた。" },
+    { id: "gRt1", type: "tf", s: "The ball is {among} the two boxes.", ok: false, a: "between", why: "2つの箱の「間」なので between。among は3つ以上のかたまりに囲まれるとき。" },
+    { id: "gRt2", type: "tf", s: "He leaned {against} the door.", ok: true, a: "against", why: "ドアに体を「押しつける」ので against で正しい。" },
+    { id: "gRt3", type: "tf", s: "There is a river {among} the two towns.", ok: false, a: "between", why: "2つの町の「間」なので between。" }
+  ],
+  pvq: []
+};
+
+/* 9グループの順番（位置 → 時間 → 方向 → 動き → 上下 → 離れる → 関係） */
+const GROUPS = [GROUPS_BASE[0], G_TIME, G_DIR, GROUPS_BASE[1], G_UPDOWN, G_OFF, G_BY, G_OF, G_REL];
+
+/* ===== 基本 ===== */
+const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const app = document.getElementById('app');
+const KEY = 'zenchishi-lab-v1';
+const PASS = 0.8;
+let STREAK = 0;
+
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function dstr(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function today(){ return dstr(new Date()); }
+function tomorrow(){ const d = new Date(); d.setDate(d.getDate() + 1); return dstr(d); }
+function col(p){ return PREPS[p] ? PREPS[p].color : '#8A8F99'; }
+function fmtTime(ms){ const s = Math.round(ms / 1000); return Math.floor(s / 60) + '分' + String(s % 60).padStart(2, '0') + '秒'; }
+
+/* ===== 保存 ===== */
+function fresh(){ return { ver: 1, pos: { g: 0, s: 0 }, grp: {}, weak: {}, best: { full: null, try: null } }; }
+function load(){ try { const r = localStorage.getItem(KEY); if (r) { const o = JSON.parse(r); return Object.assign(fresh(), o); } } catch (e) {} return fresh(); }
+let S = load();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function G(id){
+  if (!S.grp[id]) S.grp[id] = { passed: false, best: 0, mixDone: false, pvqDone: false, done: false };
+  const r = S.grp[id];
+  if (r.pvqDone === undefined) { r.pvqDone = !!r.done; if (r.passed && !r.pvqDone) r.passed = false; }
+  return r;
+}
+/* 合格＝混合問題で8割以上 ＋ 句動詞チェックを最後まで終える（句動詞チェックがないグループは混合問題だけ） */
+function gDone(g){ const r = G(g.id); return g.pvq.length ? r.pvqDone : r.mixDone; }
+function checkPass(g){
+  const r = G(g.id);
+  if (!r.passed && r.best >= PASS && (r.pvqDone || !g.pvq.length)) { r.passed = true; save(); return true; }
+  return false;
+}
+function passBig(g){ return '<div class="passbig"><span class="stamp big">合格</span><p>コア図図鑑に ' + g.preps.join(' / ') + ' が加わりました</p></div>'; }
+
+/* ===== 索引 ===== */
+const QIDX = {};
+GROUPS.forEach((g, gi) => {
+  g.mix.forEach(q => { q.g = gi; q.kind = 'mix'; if (!q.type) q.type = 'fill'; QIDX[q.id] = q; });
+  g.pvq.forEach(q => { q.g = gi; q.kind = 'pvq'; q.type = 'fill'; QIDX[q.id] = q; });
+});
+function hasPv(g){ return g.preps.some(p => PREPS[p].pvs.length); }
+function stepsOf(g){
+  const st = [];
+  g.preps.forEach(p => { st.push({ k: 'core', p }); st.push({ k: 'use', p }); });
+  st.push({ k: 'mix' });
+  if (hasPv(g)) st.push({ k: 'pv' });
+  if (g.pvq.length) st.push({ k: 'pvq' });
+  st.push({ k: 'end' });
+  return st;
+}
+function stepLabel(st){
+  return { core: st.p + ' のコアイメージ', use: st.p + ' の用法', mix: '混合問題', pv: '句動詞', pvq: '句動詞チェック', end: 'まとめ' }[st.k];
+}
+function cardData(c){ return c.kind === 'use' ? PREPS[c.p].uses[c.i] : PREPS[c.p].pvs[c.i]; }
+
+/* ===== 苦手リスト ===== */
+function addWeak(id){ S.weak[id] = { streak: 0, due: tomorrow() }; save(); }
+function weakIds(){ return Object.keys(S.weak); }
+function weakDue(){ const t = today(); return weakIds().filter(id => S.weak[id].due <= t); }
+function updWeak(id, ok){
+  const w = S.weak[id]; if (!w) return false;
+  if (ok) { w.streak++; if (w.streak >= 3) { delete S.weak[id]; save(); return true; } }
+  else w.streak = 0;
+  w.due = tomorrow(); save(); return false;
+}
+
+/* ===== 文の表示 ===== */
+function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+function hl(s, w, p){
+  const re = new RegExp('\\b(' + w.replace(/[^a-z]/gi, '') + ')\\b', 'i');
+  return esc(s).replace(re, '<b class="hl" style="--c:' + col(p) + '">$1</b>');
+}
+function blankS(s){ return esc(s).replace('___', '<span class="blank"></span>'); }
+function filledS(s, a){ return esc(s).replace('___', '<b class="hl" style="--c:' + col(a) + '">' + a + '</b>'); }
+function tfShow(s){ return esc(s).replace(/\{(\w+)\}/, '<u class="tfw">$1</u>'); }
+function tfFixed(q){ return esc(q.s).replace(/\{(\w+)\}/, '<b class="hl" style="--c:' + col(q.a) + '">' + q.a + '</b>'); }
+function plain(q){ return q.type === 'tf' ? q.s.replace(/\{(\w+)\}/, q.a) : q.s.replace('___', q.a); }
+function tfWrong(q){ return q.s.match(/\{(\w+)\}/)[1]; }
+function cmpBox(list){
+  if (!list || !list.length) return '';
+  return '<div class="cmp"><div class="cmp-h">くらべてみよう</div>' + list.map(c =>
+    '<div class="cmp-i"><div class="cmp-en">' + hl(c.en, c.p, c.p) + '</div><div class="cmp-ja">' + c.ja + '</div></div>').join('') + '</div>';
+}
+
+/* ===== 音声 ===== */
+let enVoice = null;
+function pickVoice(){
+  try {
+    const vs = speechSynthesis.getVoices();
+    enVoice = vs.find(v => /en[-_]US/i.test(v.lang) && /Samantha|Google US|Alex|Ava|Allison/i.test(v.name))
+      || vs.find(v => /en[-_]US/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+  } catch (e) {}
+}
+if ('speechSynthesis' in window) { pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {} }
+function speak(t){
+  if (!('speechSynthesis' in window)) { toast('この端末では音声を再生できません'); return; }
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; if (enVoice) u.voice = enVoice; u.rate = 0.9; speechSynthesis.speak(u); } catch (e) {}
+}
+function sayBtn(t, label){ return '<button class="say" data-say="' + esc(t) + '" aria-label="発音を聞く">🔊' + (label ? '<span>' + label + '</span>' : '') + '</button>'; }
+document.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) { e.stopPropagation(); speak(b.dataset.say); } });
+
+/* ===== コア図アニメーション ===== */
+const NS = 'http://www.w3.org/2000/svg';
+const INK = '#1D2230', FAINT = '#B9BFCB';
+function E(tag, a, par){ const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const seg = (t, a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+const SW = { stroke: INK, 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', fill: 'none' };
+const DASH = { stroke: FAINT, 'stroke-width': 2, 'stroke-dasharray': '4 5', fill: 'none' };
+const SCENES = {
+  in(s, c){
+    const fill = E('rect', { x: 60, y: 30, width: 80, height: 80, fill: c, opacity: 0 }, s);
+    E('path', Object.assign({ d: 'M60 58 V30 H140 V110 H60 V86' }, SW), s);
+    E('line', Object.assign({ x1: 22, y1: 72, x2: 100, y2: 72 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 22, cy: 72, fill: c }, s);
+    return t => { b.setAttribute('cx', 22 + 78 * ease(seg(t, 0, .7))); fill.setAttribute('opacity', seg(t, .5, .85) * .22); };
+  },
+  on(s, c){
+    E('line', Object.assign({ x1: 28, y1: 100, x2: 148, y2: 100 }, SW), s);
+    E('line', Object.assign({ x1: 174, y1: 18, x2: 174, y2: 114 }, SW), s);
+    const h1 = E('line', { x1: 78, y1: 100, x2: 102, y2: 100, stroke: c, 'stroke-width': 9, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const h2 = E('line', { x1: 174, y1: 44, x2: 174, y2: 66, stroke: c, 'stroke-width': 9, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const b1 = E('circle', { r: 11, cx: 90, cy: 18, fill: c }, s);
+    const b2 = E('circle', { r: 9, cx: 118, cy: 55, fill: c, opacity: 0 }, s);
+    return t => {
+      const u = seg(t, 0, .42); b1.setAttribute('cy', 18 + (86.5 - 18) * u * u); h1.setAttribute('opacity', t >= .42 ? 1 : 0);
+      const v = ease(seg(t, .5, .85)); b2.setAttribute('cx', 118 + (162.5 - 118) * v); b2.setAttribute('opacity', t >= .45 ? 1 : 0); h2.setAttribute('opacity', t >= .85 ? 1 : 0);
+    };
+  },
+  at(s, c){
+    E('line', { x1: 15, y1: 98, x2: 185, y2: 98, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    [40, 70, 100, 160].forEach(x => E('circle', { cx: x, cy: 98, r: 3.5, fill: FAINT }, s));
+    const ring = E('circle', { cx: 130, cy: 98, r: 70, fill: 'none', stroke: c, 'stroke-width': 3, 'stroke-dasharray': '6 6' }, s);
+    E('circle', { cx: 130, cy: 98, r: 5, fill: INK }, s);
+    const stem = E('line', { x1: 130, y1: 84, x2: 130, y2: 97, stroke: c, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const b = E('circle', { cx: 130, cy: 72, r: 0, fill: c }, s);
+    return t => {
+      ring.setAttribute('r', 70 - 58 * ease(seg(t, 0, .6))); ring.setAttribute('opacity', 1 - seg(t, .62, .85));
+      const v = seg(t, .6, .82); b.setAttribute('r', 12 * v); stem.setAttribute('opacity', v);
+    };
+  },
+  through(s, c){
+    E('rect', { x: 65, y: 48, width: 70, height: 54, fill: c, opacity: .15 }, s);
+    E('line', Object.assign({ x1: 15, y1: 75, x2: 185, y2: 75 }, DASH), s);
+    const b = E('circle', { cx: 15, cy: 75, r: 11, fill: c }, s);
+    E('line', Object.assign({ x1: 65, y1: 48, x2: 135, y2: 48 }, SW), s);
+    E('line', Object.assign({ x1: 65, y1: 102, x2: 135, y2: 102 }, SW), s);
+    return t => { b.setAttribute('cx', 15 + 170 * ease(seg(t, 0, .9))); };
+  },
+  across(s, c){
+    E('rect', { x: 10, y: 44, width: 180, height: 50, fill: c, opacity: .15 }, s);
+    E('line', Object.assign({ x1: 10, y1: 44, x2: 190, y2: 44 }, SW, { 'stroke-width': 4 }), s);
+    E('line', Object.assign({ x1: 10, y1: 94, x2: 190, y2: 94 }, SW, { 'stroke-width': 4 }), s);
+    E('line', Object.assign({ x1: 100, y1: 126, x2: 100, y2: 14 }, DASH), s);
+    const b = E('circle', { cx: 100, cy: 126, r: 11, fill: c }, s);
+    return t => { b.setAttribute('cy', 126 - 112 * ease(seg(t, 0, .85))); };
+  },
+  along(s, c){
+    const f = x => 98 + 10 * Math.sin((x - 15) / 22);
+    let d = '', d2 = '';
+    for (let x = 15; x <= 185; x += 5) d += (x === 15 ? 'M' : 'L') + x + ' ' + f(x).toFixed(1) + ' ';
+    for (let x = 20; x <= 180; x += 5) d2 += (x === 20 ? 'M' : 'L') + x + ' ' + (f(x) - 20).toFixed(1) + ' ';
+    E('path', Object.assign({ d }, SW), s);
+    E('path', Object.assign({ d: d2 }, DASH), s);
+    const b = E('circle', { r: 10, cx: 20, cy: f(20) - 20, fill: c }, s);
+    return t => { const x = 20 + 160 * ease(seg(t, 0, .95)); b.setAttribute('cx', x); b.setAttribute('cy', f(x) - 20); };
+  },
+  around(s, c){
+    E('circle', Object.assign({ cx: 100, cy: 70, r: 46 }, DASH), s);
+    E('rect', { x: 85, y: 55, width: 30, height: 30, rx: 5, fill: INK }, s);
+    const b = E('circle', { r: 10, cx: 100, cy: 24, fill: c }, s);
+    return t => { const a = -Math.PI / 2 + 2 * Math.PI * ease(seg(t, 0, .95)); b.setAttribute('cx', 100 + 46 * Math.cos(a)); b.setAttribute('cy', 70 + 46 * Math.sin(a)); };
+  }
+};
+function makeDiagram(p, size){
+  const wrap = document.createElement('div');
+  wrap.className = 'dg ' + (size || 'big');
+  wrap.style.setProperty('--c', col(p));
+  const s = E('svg', { viewBox: '0 0 200 140', role: 'img', 'aria-label': p + ' のコアイメージ' });
+  wrap.appendChild(s);
+  if (size === 'big') { const h = document.createElement('span'); h.className = 'dg-hint'; h.textContent = 'タップでもう一度'; wrap.appendChild(h); }
+  const up = SCENES[p] ? SCENES[p](s, col(p)) : null;
+  let raf = 0;
+  function play(){
+    if (!up) return; cancelAnimationFrame(raf);
+    if (RM) { up(1); return; }
+    const st = performance.now(), d = 2000;
+    const f = n => { const t = Math.min(1, (n - st) / d); up(t); if (t < 1) raf = requestAnimationFrame(f); };
+    up(0); raf = requestAnimationFrame(f);
+  }
+  if (up) up(RM ? 1 : 0);
+  wrap.addEventListener('click', e => { e.stopPropagation(); play(); });
+  wrap.play = play;
+  return wrap;
+}
+function mountDiagrams(root){
+  (root || app).querySelectorAll('[data-dg]').forEach(ph => {
+    const d = makeDiagram(ph.dataset.dg, ph.dataset.size || 'mini');
+    ph.replaceWith(d); setTimeout(d.play, 200);
+  });
+}
+
+/* ===== 演出 ===== */
+const toastEl = document.getElementById('toast');
+let toastT = 0;
+function toast(msg, big){
+  toastEl.innerHTML = msg; toastEl.className = 'toast show' + (big ? ' big' : '');
+  clearTimeout(toastT); toastT = setTimeout(() => { toastEl.className = 'toast'; }, big ? 2600 : 1800);
+}
+const cv = document.getElementById('confetti'), cx = cv.getContext('2d');
+let parts = [], confRaf = 0;
+function confetti(n){
+  if (RM) return;
+  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+  const cols = ['#E1563F', '#E2A93B', '#4E9C82', '#4C5FD5', '#F3ECD9', '#D23C7A'];
+  for (let i = 0; i < n; i++) parts.push({ x: Math.random() * cv.width, y: -20 - Math.random() * cv.height * .4, vx: (Math.random() - .5) * 4, vy: 2 + Math.random() * 4, r: Math.random() * 6, w: 6 + Math.random() * 8, c: cols[i % cols.length], vr: (Math.random() - .5) * .3 });
+  if (!confRaf) tick();
+}
+function tick(){
+  cx.clearRect(0, 0, cv.width, cv.height);
+  parts.forEach(p => { p.x += p.vx; p.y += p.vy * devicePixelRatio; p.vy += .05; p.r += p.vr; cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.w / 2, -p.w / 4, p.w, p.w / 2); cx.restore(); });
+  parts = parts.filter(p => p.y < cv.height + 30);
+  confRaf = parts.length ? requestAnimationFrame(tick) : 0;
+  if (!parts.length) cx.clearRect(0, 0, cv.width, cv.height);
+}
+const MILESTONES = { 5: ['5連続正解', 'いい調子！', 30], 10: ['10連続正解', 'ノってきた！', 60], 15: ['15連続正解', '止まらない！', 90], 20: ['20連続正解', '前置詞マスター候補', 130], 30: ['30連続正解', '前置詞マスター', 220] };
+function milestone(n){
+  const m = MILESTONES[n]; if (!m) return;
+  toast('<b>' + m[0] + '</b>' + m[1], true); confetti(m[2]);
+}
+
+/* ===== 画面の骨組み ===== */
+function screen(title, html, back){
+  app.innerHTML = '<header class="bar"><button class="back" id="back" aria-label="戻る">←</button><div class="bar-t">' + title + '</div><span class="bar-s" id="barStreak">' + (STREAK ? '連続 <b>' + STREAK + '</b>' : '') + '</span></header>' + html;
+  document.getElementById('back').onclick = back || home;
+  window.scrollTo(0, 0);
+  mountDiagrams();
+}
+function setStreak(ok){
+  STREAK = ok ? STREAK + 1 : 0;
+  const el = document.getElementById('barStreak'); if (el) el.innerHTML = STREAK ? '連続 <b>' + STREAK + '</b>' : '';
+  if (ok) milestone(STREAK);
+}
+function chips(ps){ return '<span class="chips">' + ps.map(p => '<span class="chip" style="--c:' + col(p) + '">' + p + '</span>').join('') + '</span>'; }
+
+/* ===== ホーム ===== */
+function allPassed(){ return GROUPS.every(g => G(g.id).passed); }
+function home(){
+  if ('speechSynthesis' in window) try { speechSynthesis.cancel(); } catch (e) {}
+  const pos = S.pos, done = pos.g >= GROUPS.length;
+  let cont;
+  if (done) {
+    cont = '<div class="cont"><div class="eyebrow">つづきから</div><div class="cont-t">全グループを一周しました</div><p class="muted">苦手リストと総仕上げで仕上げましょう。目次からどのグループでも復習できます。</p></div>';
+  } else {
+    const g = GROUPS[pos.g], st = stepsOf(g), pct = Math.round(pos.s / st.length * 100);
+    cont = '<button class="cont" id="cont"><div class="eyebrow">つづきから</div><div class="cont-t">' + g.title + ' ' + chips(g.preps) + '</div><div class="cont-s">次：' + stepLabel(st[pos.s]) + '</div><div class="meter"><i style="width:' + pct + '%"></i></div><span class="go">はじめる →</span></button>';
+  }
+  const due = weakDue().length, all = weakIds().length;
+  const weak = '<button class="row" id="weak"' + (due ? '' : ' disabled') + '><span class="row-t">苦手リスト</span><span class="row-v">' + (due ? '今日 <b>' + due + '</b> 問' : (all ? '今日の分は完了' : 'なし')) + '<small>全 ' + all + ' 問</small></span></button>';
+  const toc = GROUPS.map((g, gi) => {
+    const r = G(g.id), started = pos.g > gi || (pos.g === gi && pos.s > 0) || r.mixDone;
+    const st = r.passed ? '<span class="stamp">合格</span>' : (started ? '<span class="tag">学習中</span>' : '<span class="tag dim">未着手</span>');
+    return '<button class="grp" data-g="' + gi + '"><span class="grp-n">' + (gi + 1) + '</span><span class="grp-b"><span class="grp-t">' + g.title + '</span>' + chips(g.preps) + '<span class="grp-s">' + g.sub + (r.mixDone ? '　最高 ' + Math.round(r.best * 100) + '%' : '') + '</span></span>' + st + '</button>';
+  }).join('');
+  const ap = allPassed(), anyMix = GROUPS.some(gDone);
+  const fb = S.best.full;
+  const fin = '<button class="final" id="final"' + (ap || anyMix ? '' : ' disabled') + '><div class="eyebrow">' + (ap ? '総仕上げテスト' : '腕試し') + '</div><div class="fin-t">' + (ap ? '全範囲から20問' : (anyMix ? '学習したグループから出題' : '句動詞チェックまで終えると挑戦できます')) + '</div><div class="fin-s">' + (ap ? (fb ? '自己ベスト ' + Math.round(fb.pct * 100) + '%・' + fmtTime(fb.ms) : '全グループ合格で解放されました') : 'すべてのグループに合格すると総仕上げが解放されます') + '</div></button>';
+  const unlocked = unlockedParts().length;
+  app.innerHTML =
+    '<header class="hero"><div><h1>前置詞ラボ</h1><p class="sub">Preposition Lab ・ コアイメージで覚える</p></div><button class="gear" id="gear" aria-label="バックアップと設定">⚙︎</button></header>' +
+    cont + weak +
+    '<h2 class="h">目次</h2><div class="toc">' + toc + '</div>' +
+    fin +
+    '<button class="row" id="dex"><span class="row-t">コア図図鑑</span><span class="row-v"><b>' + unlocked + '</b> / ' + ALL_PARTS.length + '</span></button>';
+  const c = document.getElementById('cont'); if (c) c.onclick = () => goStep(S.pos.g, S.pos.s, false);
+  document.getElementById('weak').onclick = weakSession;
+  document.getElementById('final').onclick = finalTest;
+  document.getElementById('dex').onclick = dex;
+  document.getElementById('gear').onclick = settings;
+  app.querySelectorAll('.grp').forEach(b => b.onclick = () => groupMenu(+b.dataset.g));
+  window.scrollTo(0, 0);
+}
+
+/* ===== グループの目次（復習用） ===== */
+function groupMenu(gi){
+  const g = GROUPS[gi], st = stepsOf(g), r = G(g.id);
+  const btn = (si, label, sub) => '<button class="row" data-si="' + si + '"><span class="row-t">' + label + '</span><span class="row-v">' + (sub || '') + '</span></button>';
+  let html = '<p class="lead">' + g.sub + '</p>' + (r.passed ? '<p class="passline"><span class="stamp">合格</span>混合問題 最高 ' + Math.round(r.best * 100) + '%</p>' : '');
+  html += '<h2 class="h">コアイメージと用法</h2>';
+  g.preps.forEach(p => { const si = st.findIndex(x => x.k === 'core' && x.p === p); html += btn(si, '<b class="hl" style="--c:' + col(p) + '">' + p + '</b>　' + PREPS[p].core, '用法 ' + PREPS[p].uses.length + '個'); });
+  html += '<h2 class="h">' + (g.pvq.length ? '問題と句動詞' : '問題') + '</h2>';
+  html += btn(st.findIndex(x => x.k === 'mix'), '混合問題', g.mix.length + '問' + (r.mixDone ? '・最高 ' + Math.round(r.best * 100) + '%' : ''));
+  if (hasPv(g)) html += btn(st.findIndex(x => x.k === 'pv'), '句動詞カード', g.preps.reduce((n, p) => n + PREPS[p].pvs.length, 0) + '個');
+  if (g.pvq.length) html += btn(st.findIndex(x => x.k === 'pvq'), '句動詞チェック', g.pvq.length + '問');
+  screen(g.title, html, home);
+  app.querySelectorAll('[data-si]').forEach(b => b.onclick = () => goStep(gi, +b.dataset.si, true));
+}
+
+/* ===== 学習の流れ ===== */
+function goStep(gi, si, review){
+  const g = GROUPS[gi], st = stepsOf(g), step = st[si];
+  if (!review) { S.pos = { g: gi, s: si }; save(); }
+  const next = () => {
+    if (review) {
+      // コアイメージから入った復習は、そのまま用法まで見る
+      if (step.k === 'core') return goStep(gi, si + 1, true);
+      return groupMenu(gi);
+    }
+    goStep(gi, si + 1, false);
+  };
+  const back = review ? () => groupMenu(gi) : home;
+  const title = g.title;
+  if (step.k === 'core') return coreScreen(step.p, title, next, back);
+  if (step.k === 'use') return runDeck({ title, back, cards: PREPS[step.p].uses.map((_, i) => ({ kind: 'use', p: step.p, i })), onDone: next });
+  if (step.k === 'mix') return runQuiz({
+    title: title + '・混合問題', back,
+    items: shuffle(g.mix).map(q => ({ q, choices: g.preps })),
+    onFirst: (it, ok) => { if (!ok) addWeak('q:' + it.q.id); },
+    onDone: res => mixResult(gi, res, next, back)
+  });
+  if (step.k === 'pv') {
+    const cards = []; g.preps.forEach(p => PREPS[p].pvs.forEach((_, i) => cards.push({ kind: 'pv', p, i })));
+    return runDeck({ title: title + '・句動詞', back, cards, onDone: next });
+  }
+  if (step.k === 'pvq') return runQuiz({
+    title: title + '・句動詞チェック', back,
+    items: shuffle(g.pvq).map(q => ({ q, choices: g.preps })),
+    onFirst: (it, ok) => { if (!ok) addWeak('q:' + it.q.id); },
+    onDone: res => pvqResult(gi, res, next, back)
+  });
+  if (step.k === 'end') return groupEnd(gi, review);
+}
+
+function coreScreen(p, title, next, back){
+  const d = PREPS[p];
+  screen(title,
+    '<div class="core">' +
+      '<div class="eyebrow">コアイメージ</div>' +
+      '<div class="core-w" style="--c:' + d.color + '">' + p + '</div>' +
+      '<div class="core-s">' + d.core + '</div>' +
+      '<div data-dg="' + p + '" data-size="big"></div>' +
+      '<p class="core-l">' + d.coreLong + '</p>' +
+    '</div>' +
+    '<button class="btn primary" id="go">用法を見る →</button>', back);
+  document.getElementById('go').onclick = next;
+}
+
+/* ===== カード（推測→めくる） ===== */
+function runDeck({ title, back, cards, onDone, onEval }){
+  let list = cards.slice(), i = 0;
+  const seen = new Set();
+  const total = cards.length;
+  function show(){
+    if (i >= list.length) return onDone();
+    const c = list[i], d = cardData(c), retry = i >= total;
+    const pv = c.kind === 'pv';
+    const label = pv ? '句動詞' : c.p + ' の用法';
+    const front =
+      '<div class="flip-face front">' +
+        '<div class="card-top"><span class="eyebrow">' + label + '</span><span class="cnt">' + (retry ? 'もう一度' : (i + 1) + ' / ' + total) + '</span></div>' +
+        (pv ? '<div class="pv-ph">' + hl(d.ph, d.part, c.p) + '</div>' : '') +
+        '<p class="sent">' + hl(d.en, pv ? d.part : c.p, c.p) + '</p>' +
+        '<div class="say-row">' + sayBtn(d.en) + '</div>' +
+        '<p class="prompt">' + (pv ? '意味を推測してからタップ' : 'どんな意味？ 考えてからタップ') + '</p>' +
+      '</div>';
+    screen(title,
+      '<div class="card deck" id="card" role="button" tabindex="0">' + front + '</div>' +
+      '<div id="evals"></div>', back);
+    const card = document.getElementById('card');
+    const flip = () => {
+      if (card.dataset.f) return; card.dataset.f = '1';
+      const why = d.idiom ? '<p class="why"><span class="tag">慣用表現</span></p>'
+        : '<div class="why-wrap"><div data-dg="' + c.p + '"></div><p class="why"><b class="hl" style="--c:' + col(c.p) + '">' + c.p + '</b>＝' + PREPS[c.p].core + '<br>' + d.why + '</p></div>';
+      card.insertAdjacentHTML('beforeend',
+        '<div class="back-face">' +
+          (pv ? '<div class="mean">' + d.mean + '</div>' : '') +
+          '<p class="ja">' + d.ja + '</p>' + why + cmpBox(d.cmp) +
+        '</div>');
+      card.classList.add('open');
+      mountDiagrams(card);
+      document.getElementById('evals').innerHTML = '<div class="evals"><button class="btn ng" id="no">わからなかった</button><button class="btn ok" id="yes">わかった</button></div>';
+      const key = c.kind + ':' + c.p + ':' + c.i;
+      const ev = ok => {
+        const first = !seen.has(key); seen.add(key);
+        if (onEval) onEval(c, ok, first);
+        else if (!ok && first) addWeak((c.kind === 'use' ? 'u:' : 'p:') + c.p + ':' + c.i);
+        if (!ok) list.push(c);
+        i++; show();
+      };
+      document.getElementById('yes').onclick = () => ev(true);
+      document.getElementById('no').onclick = () => ev(false);
+    };
+    card.onclick = flip;
+    card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } };
+  }
+  show();
+}
+
+/* ===== 問題 ===== */
+function runQuiz({ title, back, items, onFirst, onDone }){
+  let list = items.slice(), i = 0, retry = [], phase = 1, firstOK = 0;
+  const total = items.length, t0 = Date.now();
+  function show(){
+    if (i >= list.length) {
+      if (retry.length) { list = retry; retry = []; i = 0; phase++; toast('まちがえた問題をもう一度'); }
+      else return onDone({ firstOK, total, ms: Date.now() - t0 });
+    }
+    const it = list[i], q = it.q, tf = q.type === 'tf';
+    const label = tf ? 'この英文は正しい？' : '空所に入るのは？';
+    screen(title,
+      '<div class="qmeta"><span>' + (phase > 1 ? 'もう一度・' : '') + (i + 1) + ' / ' + list.length + '</span><span>' + (q.kind === 'pvq' ? '句動詞' : '') + '</span></div>' +
+      '<div class="card q"><div class="eyebrow">' + label + '</div>' +
+        '<p class="sent big">' + (tf ? tfShow(q.s) : blankS(q.s)) + '</p>' +
+        (q.ja ? '<p class="qja">' + q.ja + '</p>' : '') +
+      '</div>' +
+      '<div class="choices" id="ch"></div><div id="fb"></div>', back);
+    const ch = document.getElementById('ch');
+    const answer = (ok, note) => {
+      if (phase === 1) { if (ok) firstOK++; if (onFirst) onFirst(it, ok); }
+      if (!ok) retry.push(it);
+      setStreak(ok);
+      feedback(q, ok, note, () => { i++; show(); });
+    };
+    const choiceBtns = (opts, onPick) => {
+      ch.className = 'choices n' + opts.length;
+      ch.innerHTML = opts.map(o => '<button class="choice" data-o="' + o + '" style="--c:' + col(o) + '">' + o + '</button>').join('');
+      ch.querySelectorAll('.choice').forEach(b => b.onclick = () => onPick(b.dataset.o, b));
+    };
+    const lock = (correct, picked) => {
+      ch.querySelectorAll('button').forEach(b => {
+        b.disabled = true;
+        if (b.dataset.o === correct) b.classList.add('is-ok');
+        else if (b === picked) b.classList.add('is-ng');
+      });
+    };
+    if (!tf) {
+      choiceBtns(it.choices, (o, b) => { lock(q.a, b); answer(o === q.a); });
+    } else {
+      const wrong = tfWrong(q);
+      ch.className = 'choices n2';
+      ch.innerHTML = '<button class="choice tf" data-o="ok">○ 正しい</button><button class="choice tf" data-o="ng">× まちがい</button>';
+      ch.querySelectorAll('.choice').forEach(b => b.onclick = () => {
+        const sayOk = b.dataset.o === 'ok';
+        if (sayOk) { lock(q.ok ? 'ok' : 'ng', b); return answer(q.ok, q.ok ? '' : '「' + wrong + '」はまちがい。正しくは ' + q.a + '。'); }
+        if (q.ok) { lock('ok', b); return answer(false, 'この英文は正しい文でした。'); }
+        // まちがいを見抜けた → 正しい前置詞を選ぶ
+        lock('ng', null);
+        const step2 = document.createElement('div');
+        step2.className = 'step2';
+        step2.innerHTML = '<div class="eyebrow">正しい前置詞は？</div><div class="choices" id="ch2"></div>';
+        ch.after(step2);
+        const ch2 = step2.querySelector('#ch2');
+        const opts = GROUPS[q.g].preps.filter(p => p !== wrong);
+        ch2.className = 'choices n' + opts.length;
+        ch2.innerHTML = opts.map(o => '<button class="choice" data-o="' + o + '" style="--c:' + col(o) + '">' + o + '</button>').join('');
+        ch2.querySelectorAll('.choice').forEach(bb => bb.onclick = () => {
+          ch2.querySelectorAll('button').forEach(x => { x.disabled = true; if (x.dataset.o === q.a) x.classList.add('is-ok'); else if (x === bb) x.classList.add('is-ng'); });
+          const ok = bb.dataset.o === q.a;
+          answer(ok, ok ? '' : 'まちがいには気づけました。正しくは ' + q.a + '。');
+        });
+      });
+    }
+  }
+  show();
+}
+function feedback(q, ok, note, next){
+  const fb = document.getElementById('fb');
+  const sent = q.type === 'tf' ? tfFixed(q) : filledS(q.s, q.a);
+  const why = q.idiom ? '<p class="why"><span class="tag">慣用表現</span></p>'
+    : '<div class="why-wrap"><div data-dg="' + q.a + '"></div><p class="why"><b class="hl" style="--c:' + col(q.a) + '">' + q.a + '</b>＝' + PREPS[q.a].core + '<br>' + q.why + '</p></div>';
+  fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'ng') + '">' +
+    '<div class="verdict">' + (ok ? '正解！' : 'ざんねん') + '</div>' +
+    (note ? '<p class="note">' + note + '</p>' : '') +
+    '<div class="fb-sent"><p class="sent">' + sent + '</p>' + sayBtn(plain(q)) + '</div>' +
+    why + cmpBox(q.cmp) + '<button class="btn primary" id="next">次へ →</button></div>';
+  mountDiagrams(fb);
+  document.getElementById('next').onclick = next;
+  setTimeout(() => fb.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' }), 60);
+}
+
+/* ===== 結果 ===== */
+function scoreBlock(res){
+  const pct = res.firstOK / res.total;
+  return '<div class="score"><div class="score-n">' + Math.round(pct * 100) + '<small>%</small></div><div class="score-s">1回目で正解 ' + res.firstOK + ' / ' + res.total + ' 問</div></div>';
+}
+function mixResult(gi, res, next, back){
+  const g = GROUPS[gi], r = G(g.id), pct = res.firstOK / res.total;
+  r.mixDone = true; r.best = Math.max(r.best, pct); save();
+  const newPass = checkPass(g);
+  let msg;
+  if (newPass) msg = passBig(g);
+  else if (r.passed) msg = '<p class="lead">合格済みです。</p>';
+  else if (pct >= PASS) msg = '<p class="lead">合格ライン（8割）クリア！ このあと句動詞チェックまで終えると合格です。</p>';
+  else msg = '<p class="lead">合格ラインは8割です。まちがえた問題は苦手リストに入りました。目次からいつでも再挑戦できます。</p>';
+  screen(g.title + '・混合問題', '<div class="card result">' + scoreBlock(res) + msg + '</div><button class="btn primary" id="go">次へ →</button>', back);
+  if (newPass) { confetti(140); }
+  document.getElementById('go').onclick = next;
+}
+function pvqResult(gi, res, next, back){
+  const g = GROUPS[gi], r = G(g.id);
+  r.pvqDone = true; save();
+  const newPass = checkPass(g);
+  let msg = '<p class="lead">' + (res.firstOK === res.total ? '全問正解！' : 'まちがえた問題は苦手リストに入りました。') + '</p>';
+  if (newPass) msg += passBig(g);
+  else if (!r.passed) msg += '<p class="lead">混合問題で8割以上を取ると合格です。目次から再挑戦できます。</p>';
+  screen(g.title + '・句動詞チェック', '<div class="card result">' + scoreBlock(res) + msg + '</div><button class="btn primary" id="go">次へ →</button>', back);
+  if (newPass) confetti(140); else if (res.firstOK === res.total) confetti(60);
+  document.getElementById('go').onclick = next;
+}
+function simpleResult(name, res, next, back){
+  screen(name, '<div class="card result">' + scoreBlock(res) + '<p class="lead">' + (res.firstOK === res.total ? '全問正解！' : 'まちがえた問題は苦手リストに入りました。') + '</p></div><button class="btn primary" id="go">次へ →</button>', back);
+  if (res.firstOK === res.total) confetti(60);
+  document.getElementById('go').onclick = next;
+}
+function groupEnd(gi, review){
+  const g = GROUPS[gi], r = G(g.id);
+  r.done = true; save();
+  const last = gi + 1 >= GROUPS.length;
+  if (!review) { S.pos = { g: gi + 1, s: 0 }; save(); }
+  screen(g.title,
+    '<div class="card result"><div class="eyebrow">グループ完了</div><h2 class="end-t">' + g.title + '</h2>' + chips(g.preps) +
+    '<p class="lead">' + (r.passed ? '合格済みです。' : (g.pvq.length ? 'まだ合格していません。合格は「混合問題で8割以上」＋「句動詞チェックを最後まで終える」です。目次から再挑戦できます。' : 'まだ合格していません。混合問題で8割以上を取ると合格です。目次から再挑戦できます。')) + '</p></div>' +
+    (last ? '<button class="btn primary" id="go">ホームへ</button>' : '<button class="btn primary" id="go">次のグループへ →</button><button class="btn ghost" id="hm">ホームへ</button>'), home);
+  document.getElementById('go').onclick = last ? home : () => goStep(gi + 1, 0, false);
+  const hm = document.getElementById('hm'); if (hm) hm.onclick = home;
+}
+
+/* ===== 苦手リスト ===== */
+function weakSession(){
+  const due = shuffle(weakDue());
+  if (!due.length) return home();
+  const cards = [], qs = [];
+  due.forEach(id => {
+    const [t, a, b] = id.split(':');
+    if (t === 'q' && QIDX[a]) qs.push({ q: QIDX[a], choices: GROUPS[QIDX[a].g].preps, wid: id });
+    else if ((t === 'u' || t === 'p') && PREPS[a]) cards.push({ kind: t === 'u' ? 'use' : 'pv', p: a, i: +b, wid: id });
+  });
+  let grad = 0;
+  const finish = () => {
+    screen('苦手リスト', '<div class="card result"><div class="eyebrow">今日の苦手リスト 完了</div><div class="score"><div class="score-n">' + due.length + '<small>問</small></div><div class="score-s">' + (grad ? '<b>' + grad + '</b> 問が3回連続正解で卒業しました' : '3回連続正解で卒業です') + '</div></div><p class="lead">残りは明日以降また出題されます（全 ' + weakIds().length + ' 問）。</p></div><button class="btn primary" id="go">ホームへ</button>', home);
+    if (grad) confetti(50);
+    document.getElementById('go').onclick = home;
+  };
+  const doQs = () => qs.length ? runQuiz({ title: '苦手リスト', back: home, items: qs, onFirst: (it, ok) => { if (updWeak(it.wid, ok)) grad++; }, onDone: finish }) : finish();
+  if (cards.length) runDeck({ title: '苦手リスト', back: home, cards, onEval: (c, ok, first) => { if (first && updWeak(c.wid, ok)) grad++; }, onDone: doQs });
+  else doQs();
+}
+
+/* ===== 総仕上げ / 腕試し ===== */
+function finalTest(){
+  const ap = allPassed();
+  const gs = ap ? GROUPS : GROUPS.filter(gDone);
+  if (!gs.length) return;
+  const pool = [];
+  gs.forEach(g => { g.mix.forEach(q => { if (q.type === 'fill') pool.push(q); }); g.pvq.forEach(q => pool.push(q)); });
+  const qs = shuffle(pool).slice(0, 20).map(q => ({ q, choices: shuffle([q.a].concat(shuffle(q.x).slice(0, 3))) }));
+  const mode = ap ? 'full' : 'try', name = ap ? '総仕上げテスト' : '腕試し';
+  screen(name,
+    '<div class="card result"><div class="eyebrow">' + name + '</div><h2 class="end-t">' + qs.length + '問・4択</h2>' + chips(gs.reduce((a, g) => a.concat(g.preps), [])) +
+    '<p class="lead">グループをまたいだ選択肢から選びます。正答率（1回目）と所要時間を記録します。</p>' +
+    (S.best[mode] ? '<p class="muted">自己ベスト ' + Math.round(S.best[mode].pct * 100) + '%・' + fmtTime(S.best[mode].ms) + '</p>' : '') +
+    '</div><button class="btn primary" id="go">スタート</button>', home);
+  document.getElementById('go').onclick = () => runQuiz({
+    title: name, back: home, items: qs,
+    onFirst: (it, ok) => { if (!ok) addWeak('q:' + it.q.id); },
+    onDone: res => {
+      const pct = res.firstOK / res.total, b = S.best[mode];
+      const nb = !b || pct > b.pct || (pct === b.pct && res.ms < b.ms);
+      if (nb) { S.best[mode] = { pct, ms: res.ms, n: res.total }; save(); }
+      screen(name, '<div class="card result">' + scoreBlock(res) + '<p class="time">所要時間 ' + fmtTime(res.ms) + '</p>' +
+        (nb ? '<p class="newbest">自己ベスト更新！</p>' : '<p class="muted">自己ベスト ' + Math.round(b.pct * 100) + '%・' + fmtTime(b.ms) + '</p>') +
+        '</div><button class="btn primary" id="go">ホームへ</button>', home);
+      if (nb) confetti(120);
+      document.getElementById('go').onclick = home;
+    }
+  });
+}
+
+/* ===== コア図図鑑 ===== */
+function unlockedParts(){
+  const u = []; GROUPS.forEach(g => { if (G(g.id).passed) g.preps.forEach(p => u.push(p)); }); return u;
+}
+function dex(){
+  const u = unlockedParts();
+  const tiles = ALL_PARTS.map(p => {
+    const on = u.includes(p);
+    return on ? '<button class="tile on" data-p="' + p + '" style="--c:' + col(p) + '"><div data-dg="' + p + '" data-size="tile"></div><span>' + p + '</span></button>'
+      : '<div class="tile off"><span class="lock">?</span><span>' + p + '</span></div>';
+  }).join('');
+  screen('コア図図鑑', '<p class="lead">グループに合格すると、その前置詞のコア図が色つきで加わります。タップで大きく再生できます。<b>' + u.length + '</b> / ' + ALL_PARTS.length + '</p><div class="dex">' + tiles + '</div><div id="modal"></div>', home);
+  app.querySelectorAll('.tile.on').forEach(t => t.onclick = () => {
+    const p = t.dataset.p, m = document.getElementById('modal');
+    m.innerHTML = '<div class="modal" id="mbg"><div class="card core" role="dialog" aria-label="' + p + '"><div class="core-w" style="--c:' + col(p) + '">' + p + '</div><div class="core-s">' + PREPS[p].core + '</div><div data-dg="' + p + '" data-size="big"></div><p class="core-l">' + PREPS[p].coreLong + '</p><button class="btn ghost" id="mclose">閉じる</button></div></div>';
+    mountDiagrams(m);
+    document.getElementById('mclose').onclick = () => { m.innerHTML = ''; };
+    document.getElementById('mbg').onclick = e => { if (e.target.id === 'mbg') m.innerHTML = ''; };
+  });
+}
+
+/* ===== バックアップ ===== */
+function settings(){
+  screen('バックアップ',
+    '<div class="card set"><div class="eyebrow">書き出し</div><p class="muted">進み具合・苦手リスト・自己ベストを文字データにします。コピーしてメモなどに保存してください。</p>' +
+    '<textarea id="exp" readonly rows="4"></textarea><button class="btn primary" id="copy">コピーする</button></div>' +
+    '<div class="card set"><div class="eyebrow">読み込み</div><p class="muted">保存しておいたデータを貼り付けて読み込みます。今の記録は上書きされます。</p>' +
+    '<textarea id="imp" rows="4" placeholder="ここに貼り付け"></textarea><button class="btn" id="load">読み込む</button><div id="impc"></div></div>' +
+    '<div class="card set"><div class="eyebrow">リセット</div><p class="muted">すべての記録を消して最初からにします。</p><button class="btn ng" id="rst">記録をすべて消す</button><div id="rstc"></div></div>', home);
+  const exp = document.getElementById('exp'); exp.value = JSON.stringify(S);
+  document.getElementById('copy').onclick = () => {
+    const done = () => toast('コピーしました');
+    const fall = () => { exp.focus(); exp.select(); try { document.execCommand('copy'); done(); } catch (e) { toast('選択した文字をコピーしてください'); } };
+    try { navigator.clipboard.writeText(exp.value).then(done, fall); } catch (e) { fall(); }
+  };
+  document.getElementById('load').onclick = () => {
+    let o; try { o = JSON.parse(document.getElementById('imp').value); } catch (e) { return toast('読み込めませんでした。データ全体を貼り付けてください'); }
+    if (!o || typeof o !== 'object' || !o.pos) return toast('前置詞ラボのデータではないようです');
+    document.getElementById('impc').innerHTML = '<div class="confirm"><span>今の記録を上書きしますか？</span><button class="btn ng sm" id="impy">上書きする</button><button class="btn ghost sm" id="impn">やめる</button></div>';
+    document.getElementById('impy').onclick = () => { S = Object.assign(fresh(), o); save(); toast('読み込みました'); home(); };
+    document.getElementById('impn').onclick = () => { document.getElementById('impc').innerHTML = ''; };
+  };
+  document.getElementById('rst').onclick = () => {
+    document.getElementById('rstc').innerHTML = '<div class="confirm"><span>本当にすべて消しますか？</span><button class="btn ng sm" id="ry">消す</button><button class="btn ghost sm" id="rn">やめる</button></div>';
+    document.getElementById('ry').onclick = () => { S = fresh(); save(); toast('リセットしました'); home(); };
+    document.getElementById('rn').onclick = () => { document.getElementById('rstc').innerHTML = ''; };
+  };
+}
+
+
+/* ===== 追加のコア図 ===== */
+function arrowHead(s, c){ return E('path', { d: 'M0 -7 L12 0 L0 7 Z', fill: c }, s); }
+function placeHead(h, x, y, ang){ h.setAttribute('transform', 'translate(' + x + ' ' + y + ') rotate(' + ang + ')'); }
+Object.assign(SCENES, {
+  for(s, c){
+    E('line', Object.assign({ x1: 166, y1: 26, x2: 166, y2: 116 }, SW), s);
+    E('path', { d: 'M166 28 L196 40 L166 52 Z', fill: c, opacity: .35 }, s);
+    E('line', Object.assign({ x1: 20, y1: 80, x2: 150, y2: 80 }, DASH), s);
+    const sh = E('line', { x1: 20, y1: 80, x2: 20, y2: 80, stroke: c, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    const h = arrowHead(s, c);
+    const b = E('circle', { r: 11, cx: 20, cy: 80, fill: c }, s);
+    return t => {
+      const x = 20 + 72 * ease(seg(t, 0, .8));
+      b.setAttribute('cx', x);
+      const tip = x + 18 + 22 * seg(t, .2, .8);
+      sh.setAttribute('x1', x + 12); sh.setAttribute('x2', tip);
+      placeHead(h, tip, 80, 0); h.setAttribute('opacity', t > .05 ? 1 : 0);
+    };
+  },
+  during(s, c){
+    E('line', { x1: 12, y1: 104, x2: 188, y2: 104, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    const band = E('rect', { x: 58, y: 34, width: 84, height: 70, fill: c, opacity: 0 }, s);
+    const l1 = E('line', { x1: 58, y1: 30, x2: 58, y2: 112, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const l2 = E('line', { x1: 142, y1: 30, x2: 142, y2: 112, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const b = E('circle', { r: 0, cx: 74, cy: 70, fill: c }, s);
+    return t => {
+      const u = seg(t, 0, .3); band.setAttribute('opacity', .18 * u); l1.setAttribute('opacity', u); l2.setAttribute('opacity', u);
+      b.setAttribute('r', 11 * seg(t, .3, .42)); b.setAttribute('cx', 74 + 52 * ease(seg(t, .42, .95)));
+    };
+  },
+  before(s, c){
+    E('line', { x1: 12, y1: 100, x2: 188, y2: 100, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('rect', { x: 120, y: 46, width: 12, height: 54, rx: 3, fill: INK }, s);
+    const b = E('circle', { r: 11, cx: 74, cy: 10, fill: c }, s);
+    const a = E('line', { x1: 92, y1: 120, x2: 112, y2: 120, stroke: c, 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0 }, s);
+    return t => { const u = seg(t, 0, .5); b.setAttribute('cy', 10 + (87.5 - 10) * u * u); a.setAttribute('opacity', seg(t, .55, .8)); };
+  },
+  after(s, c){
+    E('line', { x1: 12, y1: 100, x2: 188, y2: 100, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    const lead = E('rect', { x: 60, y: 76, width: 22, height: 22, rx: 4, fill: INK }, s);
+    const b = E('circle', { r: 11, cx: 30, cy: 87, fill: c }, s);
+    return t => { const u = ease(seg(t, 0, .95)); lead.setAttribute('x', 60 + 90 * u); b.setAttribute('cx', 30 + 90 * u); };
+  },
+  to(s, c){
+    E('line', Object.assign({ x1: 162, y1: 26, x2: 162, y2: 114 }, SW), s);
+    const ring = E('circle', { cx: 162, cy: 70, r: 9, fill: 'none', stroke: c, 'stroke-width': 3, opacity: 0 }, s);
+    E('line', Object.assign({ x1: 20, y1: 70, x2: 150, y2: 70 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 20, cy: 70, fill: c }, s);
+    return t => { b.setAttribute('cx', 20 + (148.5 - 20) * ease(seg(t, 0, .7))); const v = seg(t, .7, .85); ring.setAttribute('opacity', v); ring.setAttribute('r', 9 + 14 * v); };
+  },
+  from(s, c){
+    const base = E('circle', { cx: 40, cy: 70, r: 22, fill: c, opacity: .16, stroke: INK, 'stroke-width': 4 }, s);
+    E('line', Object.assign({ x1: 62, y1: 70, x2: 180, y2: 70 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 40, cy: 70, fill: c }, s);
+    return t => { b.setAttribute('cx', 40 + 138 * ease(seg(t, .15, .9))); base.setAttribute('opacity', .16 + .2 * (1 - seg(t, 0, .2))); };
+  },
+  into(s, c){
+    E('rect', { x: 92, y: 36, width: 76, height: 70, fill: c, opacity: .1 }, s);
+    E('path', Object.assign({ d: 'M92 58 V36 H168 V106 H92 V84' }, SW), s);
+    const gate = E('line', { x1: 92, y1: 58, x2: 92, y2: 84, stroke: c, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0 }, s);
+    const trail = E('line', { x1: 18, y1: 71, x2: 18, y2: 71, stroke: c, 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-dasharray': '2 6', opacity: .7 }, s);
+    const b = E('circle', { r: 11, cx: 18, cy: 71, fill: c }, s);
+    return t => {
+      const x = 18 + 112 * ease(seg(t, 0, .85)); b.setAttribute('cx', x); trail.setAttribute('x2', x);
+      gate.setAttribute('opacity', x > 80 && x < 110 ? 1 : 0);
+    };
+  },
+  over(s, c){
+    E('rect', { x: 78, y: 74, width: 44, height: 40, rx: 4, fill: INK }, s);
+    E('line', { x1: 12, y1: 114, x2: 188, y2: 114, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('path', Object.assign({ d: 'M24 103 Q100 -8 176 103' }, DASH), s);
+    const b = E('circle', { r: 11, cx: 24, cy: 103, fill: c }, s);
+    return t => { const u = ease(seg(t, 0, .9)); const x = (1 - u) * (1 - u) * 24 + 2 * (1 - u) * u * 100 + u * u * 176; const y = (1 - u) * (1 - u) * 103 + 2 * (1 - u) * u * (-8) + u * u * 103; b.setAttribute('cx', x); b.setAttribute('cy', y); };
+  },
+  under(s, c){
+    E('line', { x1: 40, y1: 54, x2: 160, y2: 54, stroke: INK, 'stroke-width': 8, 'stroke-linecap': 'round' }, s);
+    E('line', { x1: 52, y1: 54, x2: 52, y2: 116, stroke: INK, 'stroke-width': 5, 'stroke-linecap': 'round' }, s);
+    E('line', { x1: 148, y1: 54, x2: 148, y2: 116, stroke: INK, 'stroke-width': 5, 'stroke-linecap': 'round' }, s);
+    const shade = E('rect', { x: 56, y: 58, width: 88, height: 58, fill: c, opacity: 0 }, s);
+    const b = E('circle', { r: 11, cx: 10, cy: 104, fill: c }, s);
+    return t => { b.setAttribute('cx', 10 + 90 * ease(seg(t, 0, .75))); shade.setAttribute('opacity', .16 * seg(t, .6, .9)); };
+  },
+  up(s, c){
+    E('line', { x1: 50, y1: 124, x2: 150, y2: 124, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('line', Object.assign({ x1: 100, y1: 110, x2: 100, y2: 20 }, DASH), s);
+    const h = arrowHead(s, c);
+    const b = E('circle', { r: 11, cx: 100, cy: 112, fill: c }, s);
+    return t => { const y = 112 - 84 * ease(seg(t, 0, .85)); b.setAttribute('cy', y); placeHead(h, 100, y - 16, -90); };
+  },
+  down(s, c){
+    E('line', { x1: 50, y1: 124, x2: 150, y2: 124, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('line', Object.assign({ x1: 100, y1: 20, x2: 100, y2: 110 }, DASH), s);
+    const h = arrowHead(s, c);
+    const b = E('circle', { r: 11, cx: 100, cy: 24, fill: c }, s);
+    return t => { const y = 24 + 86 * ease(seg(t, 0, .85)); b.setAttribute('cy', y); placeHead(h, 100, Math.min(y + 16, 118), 90); h.setAttribute('opacity', y < 100 ? 1 : 0); };
+  },
+  off(s, c){
+    E('line', Object.assign({ x1: 30, y1: 104, x2: 130, y2: 104 }, SW), s);
+    const hl = E('line', { x1: 58, y1: 104, x2: 82, y2: 104, stroke: c, 'stroke-width': 9, 'stroke-linecap': 'round' }, s);
+    const gap = E('line', Object.assign({ x1: 70, y1: 104, x2: 70, y2: 104 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 70, cy: 90.5, fill: c }, s);
+    return t => {
+      const u = ease(seg(t, .25, .9)); const x = 70 + 90 * u, y = 90.5 - 56 * Math.sin(u * Math.PI / 2);
+      b.setAttribute('cx', x); b.setAttribute('cy', y);
+      hl.setAttribute('opacity', 1 - seg(t, .25, .45)); gap.setAttribute('x2', x); gap.setAttribute('y2', y + 12);
+    };
+  },
+  out(s, c){
+    E('rect', { x: 30, y: 36, width: 76, height: 70, fill: c, opacity: .1 }, s);
+    E('path', Object.assign({ d: 'M106 58 V36 H30 V106 H106 V84' }, SW), s);
+    E('line', Object.assign({ x1: 68, y1: 71, x2: 180, y2: 71 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 68, cy: 71, fill: c }, s);
+    return t => { b.setAttribute('cx', 68 + 110 * ease(seg(t, .1, .9))); };
+  },
+  away(s, c){
+    E('circle', { cx: 34, cy: 74, r: 7, fill: INK }, s);
+    E('line', Object.assign({ x1: 46, y1: 74, x2: 186, y2: 74 }, DASH), s);
+    const b = E('circle', { r: 11, cx: 50, cy: 74, fill: c }, s);
+    return t => { const u = ease(seg(t, 0, .95)); b.setAttribute('cx', 50 + 134 * u); b.setAttribute('r', 11 - 6 * u); b.setAttribute('opacity', 1 - .45 * u); };
+  },
+  back(s, c){
+    E('circle', { cx: 40, cy: 70, r: 18, fill: 'none', stroke: INK, 'stroke-width': 4 }, s);
+    E('path', Object.assign({ d: 'M40 52 H150 A18 18 0 0 1 150 88 H40' }, DASH), s);
+    const b = E('circle', { r: 10, cx: 40, cy: 52, fill: c }, s);
+    return t => {
+      const u = ease(seg(t, 0, .95)); let x, y;
+      if (u < .45) { x = 40 + 110 * (u / .45); y = 52; }
+      else if (u < .55) { const a = -Math.PI / 2 + Math.PI * ((u - .45) / .1); x = 150 + 18 * Math.cos(a); y = 70 + 18 * Math.sin(a); }
+      else { x = 150 - 110 * ((u - .55) / .45); y = 88; }
+      if (u > .97) { y = 70; }
+      b.setAttribute('cx', x); b.setAttribute('cy', y);
+    };
+  },
+  by(s, c){
+    const zone = E('circle', { cx: 120, cy: 78, r: 40, fill: c, opacity: 0 }, s);
+    E('line', { x1: 12, y1: 114, x2: 188, y2: 114, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('rect', { x: 110, y: 40, width: 22, height: 74, rx: 4, fill: INK }, s);
+    const b = E('circle', { r: 11, cx: 14, cy: 103, fill: c }, s);
+    return t => { b.setAttribute('cx', 14 + (95 - 14) * ease(seg(t, 0, .75))); zone.setAttribute('opacity', .14 * seg(t, .6, .9)); };
+  },
+  with(s, c){
+    E('line', Object.assign({ x1: 20, y1: 76, x2: 186, y2: 76 }, DASH), s);
+    const p = E('circle', { r: 11, cx: 92, cy: 76, fill: INK }, s);
+    const b = E('circle', { r: 11, cx: 20, cy: 76, fill: c }, s);
+    return t => {
+      const u = ease(seg(t, 0, .45)), v = ease(seg(t, .5, .95));
+      b.setAttribute('cx', 20 + 50 * u + 80 * v); p.setAttribute('cx', 92 + 80 * v);
+    };
+  },
+  of(s, c){
+    const cx0 = 100, cy0 = 70, R = 46;
+    E('circle', { cx: cx0, cy: cy0, r: R, fill: 'none', stroke: INK, 'stroke-width': 4 }, s);
+    for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 - Math.PI / 2; E('line', { x1: cx0, y1: cy0, x2: cx0 + R * Math.cos(a), y2: cy0 + R * Math.sin(a), stroke: FAINT, 'stroke-width': 2 }, s); }
+    const a0 = -Math.PI / 2, a1 = -Math.PI / 2 + Math.PI / 3;
+    const wedge = E('path', { d: 'M' + cx0 + ' ' + cy0 + ' L' + (cx0 + R * Math.cos(a0)) + ' ' + (cy0 + R * Math.sin(a0)) + ' A' + R + ' ' + R + ' 0 0 1 ' + (cx0 + R * Math.cos(a1)).toFixed(1) + ' ' + (cy0 + R * Math.sin(a1)).toFixed(1) + ' Z', fill: c, stroke: INK, 'stroke-width': 3, 'stroke-linejoin': 'round' }, s);
+    return t => {
+      const out = Math.sin(Math.PI * seg(t, .2, .9)) * 12; const m = (a0 + a1) / 2;
+      wedge.setAttribute('transform', 'translate(' + (out * Math.cos(m)).toFixed(1) + ' ' + (out * Math.sin(m)).toFixed(1) + ')');
+      wedge.setAttribute('opacity', .25 + .75 * seg(t, 0, .2));
+    };
+  },
+  about(s, c){
+    E('rect', { x: 88, y: 58, width: 24, height: 24, rx: 4, fill: INK }, s);
+    const pts = [[56, 40], [100, 22], [146, 38], [160, 76], [140, 112], [98, 120], [54, 106], [40, 72]];
+    const dots = pts.map(([x, y]) => E('circle', { cx: x, cy: y, r: 0, fill: c }, s));
+    return t => { dots.forEach((d, i) => d.setAttribute('r', 8 * seg(t, i * .1, i * .1 + .15))); };
+  },
+  between(s, c){
+    E('line', { x1: 12, y1: 114, x2: 188, y2: 114, stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' }, s);
+    E('rect', { x: 46, y: 40, width: 22, height: 74, rx: 4, fill: INK }, s);
+    E('rect', { x: 132, y: 40, width: 22, height: 74, rx: 4, fill: INK }, s);
+    const b = E('circle', { r: 11, cx: 100, cy: 14, fill: c }, s);
+    return t => { const u = seg(t, 0, .6); b.setAttribute('cy', 14 + (103 - 14) * u * u); };
+  },
+  among(s, c){
+    const pts = [[40, 40], [76, 30], [124, 32], [160, 44], [30, 78], [62, 66], [140, 70], [170, 84], [48, 108], [86, 112], [122, 106], [156, 116], [100, 46], [96, 96]];
+    pts.forEach(([x, y]) => E('circle', { cx: x, cy: y, r: 9, fill: FAINT }, s));
+    E('path', Object.assign({ d: 'M10 128 Q60 120 100 72' }, DASH), s);
+    const b = E('circle', { r: 11, cx: 10, cy: 128, fill: c }, s);
+    return t => { const u = ease(seg(t, 0, .85)); const x = (1 - u) * (1 - u) * 10 + 2 * (1 - u) * u * 60 + u * u * 100; const y = (1 - u) * (1 - u) * 128 + 2 * (1 - u) * u * 120 + u * u * 72; b.setAttribute('cx', x); b.setAttribute('cy', y); };
+  },
+  against(s, c){
+    E('rect', { x: 150, y: 18, width: 14, height: 104, rx: 3, fill: INK }, s);
+    const b = E('ellipse', { rx: 11, ry: 11, cx: 20, cy: 70, fill: c }, s);
+    const k1 = E('path', { d: 'M136 46 L120 40 M136 94 L120 100', stroke: c, 'stroke-width': 4, 'stroke-linecap': 'round', fill: 'none', opacity: 0 }, s);
+    return t => {
+      const u = seg(t, 0, .55); const x = 20 + (139 - 20) * u * u;
+      const sq = Math.sin(Math.PI * seg(t, .55, .9));
+      b.setAttribute('cx', x + 3 * sq); b.setAttribute('rx', 11 - 4 * sq); b.setAttribute('ry', 11 + 4 * sq);
+      k1.setAttribute('opacity', sq);
+    };
+  }
+});
+
+home();
+
+</script>
+
+</html>
